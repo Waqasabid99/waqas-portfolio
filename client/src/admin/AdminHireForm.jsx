@@ -48,7 +48,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const API_BASE_URL = 'https://routes.waqasabidwork.online/api';
+  const API_BASE_URL = 'https://routes.waqasabidwork.online';
 
   // Available options for different categories
   const categoryOptions = [

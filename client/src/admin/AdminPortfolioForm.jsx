@@ -19,7 +19,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const API_BASE_URL = 'https://routes.waqasabidwork.online/api';
+  const API_BASE_URL = 'https://routes.waqasabidwork.online';
 
   // Available categories
   const categoryOptions = [

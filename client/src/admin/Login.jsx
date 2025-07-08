@@ -20,7 +20,7 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const response = await axios.post('https://routes.waqasabidwork.online/api/admin/login', formData, {
+      const response = await axios.post('https://routes.waqasabidwork.online/admin/login', formData, {
         withCredentials: true, 
         headers: {
           'Content-Type': 'application/json',
