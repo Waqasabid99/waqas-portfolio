@@ -9,7 +9,6 @@ import AdminSignup from './admin/Register.jsx';
 import LoginModal from './components/auth/Login.jsx';
 import ForgetPassword from './components/auth/ForgetPassword.jsx';
 import ClientDashboard from './components/dashboard/ClientDashborad.jsx';
-import Admin from './admin/Admin.jsx';
 import SignupModal from './components/auth/Register.jsx';
 import ClientNavbar from './components/dashboard/ClientNavbar.jsx';
 
