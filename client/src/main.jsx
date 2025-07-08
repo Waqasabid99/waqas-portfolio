@@ -10,7 +10,6 @@ import LoginModal from './components/auth/Login.jsx';
 import ForgetPassword from './components/auth/ForgetPassword.jsx';
 import ClientDashboard from './components/dashboard/ClientDashborad.jsx';
 import SignupModal from './components/auth/Register.jsx';
-import ClientNavbar from './components/dashboard/ClientNavbar.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
    <BrowserRouter>
