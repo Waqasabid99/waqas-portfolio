@@ -17,17 +17,23 @@ const ContactForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await axios('https://routes.waqasabidwork.online/api/contact', formData, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-      withCredentials: true,
-    });
+    try {
+      const res = await axios.post(
+        'https://routes.waqasabidwork.online/contact',
+        formData,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        }
+      );
 
-    if (res.ok) {
-      alert('Message sent!');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } else {
+      if (res.status === 200) {
+        alert('Message sent!');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        alert('Failed to send message.');
+      }
+    } catch (error) {
       alert('Failed to send message.');
     }
   };

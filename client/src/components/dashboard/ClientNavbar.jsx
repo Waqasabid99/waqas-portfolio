@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, X, Bell, Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, User, LogOut, Settings, RefreshCw, Link } from 'lucide-react';
 import { useNavigate } from 'react-router'
+import axios from 'axios'
 
 const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,12 +22,11 @@ const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('https://routes.waqasabidwork.online/logout', {
-        method: 'POST',
-        credentials: 'include'
+      const response = await axios.post('https://routes.waqasabidwork.online/logout', {}, {
+        withCredentials: true
       });
-      
-      if (response.ok) {
+
+      if (response.status === 200) {
         if (onLogout) {
           onLogout();
         }
@@ -38,9 +38,8 @@ const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
 
   return (
     <header
-      className={`max-w-[91%] mb-3 bg-[#e5eff9] px-5 sm:px-10 py-4 rounded-full mx-auto mt-5 sticky top-0 z-50 transition-all duration-300 ${
-        isSticky ? 'max-w-full rounded-none shadow-lg' : 'bg-[#e5eff9]'
-      }`}
+      className={`max-w-[91%] mb-3 bg-[#e5eff9] px-5 sm:px-10 py-4 rounded-full mx-auto mt-5 sticky top-0 z-50 transition-all duration-300 ${isSticky ? 'max-w-full rounded-none shadow-lg' : 'bg-[#e5eff9]'
+        }`}
     >
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-bold text-[#1365ff]">
@@ -59,7 +58,7 @@ const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
               <Bell size={20} className="text-[#1365ff]" />
             </button>
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-2 p-2 rounded-full hover:bg-white/50 transition"
               >
@@ -76,7 +75,7 @@ const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
                     <Settings size={16} />
                     Settings
                   </button>
-                  <button 
+                  <button
                     onClick={handleLogout}
                     className="w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center gap-2 text-red-600"
                   >
@@ -110,7 +109,7 @@ const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
             <p className="text-xs text-gray-500 mb-2">{user?.full_name}</p>
             <p className="text-xs text-gray-500 mb-4">{user?.email}</p>
           </div>
-          <button 
+          <button
             onClick={handleLogout}
             className="mt-4 w-full rounded-full px-5 py-2 bg-red-500 text-white border border-red-500 hover:bg-white hover:text-red-500 transition flex items-center justify-center gap-2"
           >

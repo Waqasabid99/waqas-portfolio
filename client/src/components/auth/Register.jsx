@@ -26,6 +26,9 @@ const SignupModal = ({ onLoginClick }) => {
         toast.error(response.data.message)
       }
     })
+    .catch((error) => {
+      toast.error(error.response?.data?.message || 'Registration failed');
+    });
   };
 
   return (

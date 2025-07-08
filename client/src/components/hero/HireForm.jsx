@@ -199,7 +199,7 @@ const HireForm = ({ onCloseClick }) => {
   const [submitMessage, setSubmitMessage] = useState('');
   const [submitStatus, setSubmitStatus] = useState('');
 
-  const API_BASE_URL = 'https://routes.waqasabidwork.online/api';
+  const API_BASE_URL = 'https://routes.waqasabidwork.online';
 
   useEffect(() => {
     let base = 0;
