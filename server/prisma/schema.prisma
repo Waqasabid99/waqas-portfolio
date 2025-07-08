@@ -1,0 +1,282 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  full_name String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  projects     Project[]
+  contactForms ContactForm[]
+
+  @@map("users")
+}
+
+model ContactForm {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Optional relation to user if they're logged in
+  userId Int?
+  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("contact_forms")
+}
+
+model Project {
+  id           Int     @id @default(autoincrement())
+  username     String
+  email        String
+  password     String
+  projectName  String
+  projectTitle String
+  category     String
+  price        Float   @default(0)
+  deadline     String?
+  details      String? @db.Text
+  status       String  @default("pending")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  userId                    Int?
+  user                      User?                      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  webDevelopmentDetails     WebDevelopmentDetail?
+  seoDetails                SeoDetail?
+  digitalMarketingDetails   DigitalMarketingDetail?
+  contentGenerationDetails  ContentGenerationDetail?
+  appDevelopmentDetails     AppDevelopmentDetail?
+
+  @@map("projects")
+}
+
+model WebDevelopmentDetail {
+  id       Int    @id @default(autoincrement())
+  tech     String 
+  webPages Int?
+
+  // Relations
+  projectId   Int                        @unique
+  project     Project                    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  webFeatures WebDevelopmentFeature[]
+
+  @@map("web_development_details")
+}
+
+model WebDevelopmentFeature {
+  id        Int    @id @default(autoincrement())
+  feature   String 
+  price     Float
+
+  // Relations
+  webDevDetailId Int
+  webDevDetail   WebDevelopmentDetail @relation(fields: [webDevDetailId], references: [id], onDelete: Cascade)
+
+  @@map("web_development_features")
+}
+
+model SeoDetail {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // Relations
+  projectId Int         @unique
+  project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  seoTypes  SeoType[]
+
+  @@map("seo_details")
+}
+
+model SeoType {
+  id       Int    @id @default(autoincrement())
+  seoType  String 
+  price    Float
+
+  // Relations
+  seoDetailId Int
+  seoDetail   SeoDetail @relation(fields: [seoDetailId], references: [id], onDelete: Cascade)
+
+  @@map("seo_types")
+}
+
+// Digital Marketing specific details
+model DigitalMarketingDetail {
+  id              Int     @id @default(autoincrement())
+  targetAudience  String?
+  marketingBudget Float?
+  duration        String? 
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  projectId               Int                          @unique
+  project                 Project                      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  marketingServices       DigitalMarketingService[]
+  socialPlatforms         SocialPlatform[]
+
+  @@map("digital_marketing_details")
+}
+
+// Digital Marketing Services (many-to-many)
+model DigitalMarketingService {
+  id      Int    @id @default(autoincrement())
+  service String 
+  price   Float
+
+  // Relations
+  digitalMarketingDetailId Int
+  digitalMarketingDetail   DigitalMarketingDetail @relation(fields: [digitalMarketingDetailId], references: [id], onDelete: Cascade)
+
+  @@map("digital_marketing_services")
+}
+
+// Social Platforms (many-to-many)
+model SocialPlatform {
+  id       Int    @id @default(autoincrement())
+  platform String 
+  price    Float
+
+  // Relations
+  digitalMarketingDetailId Int
+  digitalMarketingDetail   DigitalMarketingDetail @relation(fields: [digitalMarketingDetailId], references: [id], onDelete: Cascade)
+
+  @@map("social_platforms")
+}
+
+// Content Generation specific details
+model ContentGenerationDetail {
+  id             Int     @id @default(autoincrement())
+  volume         String? 
+  contentTone    String?
+  targetKeywords String? @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  projectId        Int                    @unique
+  project          Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  contentTypes     ContentType[]
+  contentLanguages ContentLanguage[]
+
+  @@map("content_generation_details")
+}
+
+// Content Types (many-to-many)
+model ContentType {
+  id          Int    @id @default(autoincrement())
+  contentType String 
+  price       Float
+
+  // Relations
+  contentGenerationDetailId Int
+  contentGenerationDetail   ContentGenerationDetail @relation(fields: [contentGenerationDetailId], references: [id], onDelete: Cascade)
+
+  @@map("content_types")
+}
+
+// Content Languages (many-to-many)
+model ContentLanguage {
+  id       Int    @id @default(autoincrement())
+  language String 
+  price    Float
+
+  // Relations
+  contentGenerationDetailId Int
+  contentGenerationDetail   ContentGenerationDetail @relation(fields: [contentGenerationDetailId], references: [id], onDelete: Cascade)
+
+  @@map("content_languages")
+}
+
+// App Development specific details
+model AppDevelopmentDetail {
+  id              Int     @id @default(autoincrement())
+  appType         String? 
+  complexity      String? 
+  targetPlatforms String?
+  expectedUsers   Int?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  projectId   Int             @unique
+  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  appFeatures AppFeature[]
+
+  @@map("app_development_details")
+}
+
+// App Features (many-to-many)
+model AppFeature {
+  id      Int    @id @default(autoincrement())
+  feature String 
+  price   Float
+
+  // Relations
+  appDevelopmentDetailId Int
+  appDevelopmentDetail   AppDevelopmentDetail @relation(fields: [appDevelopmentDetailId], references: [id], onDelete: Cascade)
+
+  @@map("app_features")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin") // admin, super_admin
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
+}
+
+// Project status tracking
+model ProjectStatusHistory {
+  id          Int      @id @default(autoincrement())
+  projectId   Int
+  oldStatus   String?
+  newStatus   String
+  changedBy   String? 
+  notes       String?  @db.Text
+  createdAt   DateTime @default(now())
+
+  @@map("project_status_history")
+
+}
+
+model PortfolioProject {
+  id           Int      @id @default(autoincrement())
+  title        String
+  category     String   
+  image        String   
+  description  String   @db.Text
+  technologies String   @db.Text
+  liveUrl      String   
+  githubUrl    String?  
+  featured     Boolean  @default(false) 
+  status       String   @default("active")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("portfolio_projects")
+}
