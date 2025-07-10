@@ -199,7 +199,7 @@ const HireForm = ({ onCloseClick }) => {
   const [submitMessage, setSubmitMessage] = useState('');
   const [submitStatus, setSubmitStatus] = useState('');
 
-  const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com/';
+  const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com';
 
   useEffect(() => {
     let base = 0;

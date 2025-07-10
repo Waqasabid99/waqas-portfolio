@@ -191,7 +191,7 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com/';
+  const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com';
 
   useEffect(() => {
     let base = 0;
