@@ -6,10 +6,10 @@ const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 
 const { createClient } = require('redis');
-const RedisStore = require("connect-redis").default;
+const RedisStore = require("connect-redis");
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 const prisma = new PrismaClient();
 
 let redisClient;
@@ -32,9 +32,6 @@ let redisStore;
   });
 })();
 
-redisClient.on('error', (err) => console.log('Redis Client Error', err));
-redisClient.connect().catch(console.error);
-
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,17 +42,17 @@ app.use(cors({
 
 // Session configuration
 app.use(session({
-  store: redisStore,
-  secret: process.env.SESSION_SECRET, 
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true,
-    sameSite: 'None', 
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000
-  }
-} ));
+    store: redisStore,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true,
+      sameSite: 'None',
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000
+    }
+  } ));
 
 const hashPassword = async (password) => {
   const saltRounds = 10;
