@@ -18,24 +18,28 @@ const ClientDashboard = () => {
   const navigate = useNavigate()
 
  const checkAuth = async () => {
+  console.log('checkAuth: Initiating authentication check...');
   try {
     const response = await axios.get('https://routes.waqasabidwork.online/check-session', {
       withCredentials: true
     });
     
     const data = response.data;
+    console.log('checkAuth: Response from /check-session:', data);
 
     if (data.success && data.isAuthenticated) {
+      console.log('checkAuth: User is authenticated. User data:', data.user);
       setUser(data.user);
       setIsAuthenticated(true);
       return true;
     } else {
+      console.log('checkAuth: User is NOT authenticated. Response:', data);
       setIsAuthenticated(false);
       setUser(null);
       return false;
     }
   } catch (error) {
-    console.error('Auth check error:', error);
+    console.error('checkAuth: Auth check error:', error.response ? error.response.data : error.message);
     setIsAuthenticated(false);
     setUser(null);
     return false;
@@ -44,15 +48,18 @@ const ClientDashboard = () => {
 
 
   // Fetch user projects
-  const fetchUserProjects = async () => {
+    const fetchUserProjects = async () => {
+  console.log('fetchUserProjects: Attempting to fetch user projects...');
   try {
     const response = await axios.get('https://routes.waqasabidwork.online/user-projects', {
       withCredentials: true
     });
 
     const data = response.data;
+    console.log('fetchUserProjects: Response from /user-projects:', data);
 
     if (data.success) {
+      console.log('fetchUserProjects: Projects fetched successfully. Count:', data.projects.length);
       const transformedProjects = data.projects.map(project => ({
         id: project.id,
         projectTitle: project.projectTitle,
@@ -80,9 +87,10 @@ const ClientDashboard = () => {
         pending, 
         inProgress 
       });
+      console.log('fetchUserProjects: Stats updated:', { total: transformedProjects.length, completed, pending, inProgress });
     }
   } catch (error) {
-    console.error('Fetch projects error:', error);
+    console.error('fetchUserProjects: Fetch projects error:', error.response ? error.response.data : error.message);
     setError('Failed to load projects');
   }
 };
