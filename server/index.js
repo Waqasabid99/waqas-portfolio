@@ -9,6 +9,8 @@ const projectRoutes = require('./routes/projectRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const portfolioRoutes = require('./routes/portfolioRoutes');
+const sessionStore = new MySQLStore({}, pool);
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -21,7 +23,9 @@ app.use(cors({
 }));
 
 app.use(session({
+  key: process.env.KEY,
   secret: process.env.SESSION_SECRET,
+  store: sessionStore,
   resave: false,
   saveUninitialized: false,
   cookie: {
