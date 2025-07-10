@@ -20,7 +20,7 @@ const ClientDashboard = () => {
  const checkAuth = async () => {
   console.log('checkAuth: Initiating authentication check...');
   try {
-    const response = await axios.get('https://routes.waqasabidwork.online/check-session', {
+    const response = await axios.get('https://waqas-portfolio-qlpx.onrender.com/check-session', {
       withCredentials: true
     });
     
@@ -51,7 +51,7 @@ const ClientDashboard = () => {
     const fetchUserProjects = async () => {
   console.log('fetchUserProjects: Attempting to fetch user projects...');
   try {
-    const response = await axios.get('https://routes.waqasabidwork.online/user-projects', {
+    const response = await axios.get('https://waqas-portfolio-qlpx.onrender.com/user-projects', {
       withCredentials: true
     });
 

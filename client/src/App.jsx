@@ -14,7 +14,7 @@ import HireForm from './components/hero/HireForm'
 const App = () => {
 const [apiData, setApiData] = useState('')
   useEffect(() => {
-    axios.get("https://routes.waqasabidwork.online").then((response)=>{
+    axios.get("https://waqas-portfolio-qlpx.onrender.com/").then((response)=>{
       setApiData(response.data)
     })
   

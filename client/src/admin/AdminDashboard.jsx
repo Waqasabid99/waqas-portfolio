@@ -35,7 +35,7 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('projects');
 
   axios.defaults.withCredentials = true;
-  const API_BASE_URL = 'https://routes.waqasabidwork.online';
+  const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com/';
 
   useEffect(() => {
     fetchDashboardData();

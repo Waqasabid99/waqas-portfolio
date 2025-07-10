@@ -16,7 +16,7 @@ const SignupModal = ({ onLoginClick }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Signup Data:', formData);
-    axios.post('https://routes.waqasabidwork.online/register', formData, { withCredentials: true }).then((response) => {
+    axios.post('https://waqas-portfolio-qlpx.onrender.com/register', formData, { withCredentials: true }).then((response) => {
       if (response.data.success === true) {
         toast.success(response.data.message)
         setTimeout(() => {

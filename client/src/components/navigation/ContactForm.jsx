@@ -19,7 +19,7 @@ const ContactForm = (props) => {
 
     try {
       const res = await axios.post(
-        'https://routes.waqasabidwork.online/contact',
+        'https://waqas-portfolio-qlpx.onrender.com/contact',
         formData,
         {
           headers: { 'Content-Type': 'application/json' },

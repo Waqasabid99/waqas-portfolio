@@ -31,7 +31,7 @@ const ForgetPassword = () => {
 
   const handleEmailSubmit = (e) => {
     e.preventDefault()
-    axios.post('https://routes.waqasabidwork.online/forget-password', formData).then((response)=>{
+    axios.post('https://waqas-portfolio-qlpx.onrender.com/forget-password', formData).then((response)=>{
       if (response.data.success === true) {
         setemailIsVerfied(true)
       } 
@@ -44,7 +44,7 @@ const ForgetPassword = () => {
 
   const handleChangePassword = (e) => {
     e.preventDefault()
-    axios.post('https://routes.waqasabidwork.online/reset-password', formData).then((response) => {
+    axios.post('https://waqas-portfolio-qlpx.onrender.com/reset-password', formData).then((response) => {
       if (response.data.success === true) {
         toast.success(response.data.message)
         setTimeout(() => {

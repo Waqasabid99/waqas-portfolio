@@ -17,7 +17,7 @@ const LoginModal = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://routes.waqasabidwork.online/login', formData, { withCredentials: true}).then((response) => {
+    axios.post('https://waqas-portfolio-qlpx.onrender.com/login', formData, { withCredentials: true}).then((response) => {
       if (response.data.success === true) {
         toast.success(response.data.message)
         setTimeout(() => {

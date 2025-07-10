@@ -22,7 +22,7 @@ const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('https://routes.waqasabidwork.online/logout', {}, {
+      const response = await axios.post('https://waqas-portfolio-qlpx.onrender.com/logout', {}, {
         withCredentials: true
       });
 
