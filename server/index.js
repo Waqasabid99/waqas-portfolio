@@ -5,17 +5,32 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 
-const redis = require('redis');
-const RedisStore = require('connect-redis')(session);
+const { createClient } = require('redis');
+const RedisStore = require("connect-redis").default;
 
 const app = express();
 const port = 3001;
 const prisma = new PrismaClient();
 
-const redisClient = redis.createClient({
-  url: process.env.REDIS_URL, 
-  legacyMode: true
-});
+let redisClient;
+let redisStore;
+
+(async () => {
+  redisClient = createClient({
+    url: process.env.REDIS_URL
+  });
+
+  redisClient.on('error', (err) => console.log('Redis Client Error', err));
+
+  await redisClient.connect();
+  console.log('Connected to Redis successfully!');
+
+  // Initialize RedisStore after the client is connected
+  redisStore = new RedisStore({
+    client: redisClient,
+    prefix: "myapp:", 
+  });
+})();
 
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
 redisClient.connect().catch(console.error);
@@ -26,17 +41,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
   origin: 'https://waqasabidwork.online',
   credentials: true
-}));
+} ));
 
 // Session configuration
 app.use(session({
-  store: new RedisStore({ client: redisClient }),
-  secret: process.env.SESSION_SECRET,
+  store: redisStore,
+  secret: process.env.SESSION_SECRET, 
   resave: false,
   saveUninitialized: false,
   cookie: {
     secure: true,
-    sameSite: 'None',
+    sameSite: 'None', 
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000
   }
