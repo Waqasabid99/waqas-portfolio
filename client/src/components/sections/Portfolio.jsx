@@ -163,24 +163,24 @@ const Portfolio = () => {
                                 className="project-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
                             >
                                 <div className="relative overflow-hidden">
-                                    {/* <img 
+                                    <img 
                                         src={project.image} 
                                         alt={project.title}
                                         className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                                    /> */}
+                                    />
                                     <div className="absolute inset-0 bg-[#1365ff] bg-opacity-0 group-hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center">
                                         <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <a 
-                                                href={project.liveUrl}
+                                                href={project.live_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="p-3 bg-white text-[#1365ff] rounded-full hover:bg-[#1365ff] hover:text-white transition-all duration-300"
                                             >
                                                 <FiEye className="text-xl" />
                                             </a>
-                                            {project.githubUrl && (
+                                            {project.github_url && (
                                                 <a 
-                                                    href={project.githubUrl}
+                                                    href={project.github_url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="p-3 bg-white text-[#1365ff] rounded-full hover:bg-[#1365ff] hover:text-white transition-all duration-300"
@@ -233,16 +233,16 @@ const Portfolio = () => {
                                     
                                     <div className="flex gap-2">
                                         <a 
-                                            href={project.liveUrl}
+                                            href={project.live_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="flex-1 text-center py-2 bg-[#1365ff] text-white rounded-lg text-sm font-medium hover:bg-[#0f4fb3] transition-colors duration-300"
                                         >
                                             Live Demo
                                         </a>
-                                        {project.githubUrl && (
+                                        {project.github_url && (
                                             <a 
-                                                href={project.githubUrl}
+                                                href={project.github_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="px-4 py-2 border border-[#1365ff] text-[#1365ff] rounded-lg text-sm font-medium hover:bg-[#1365ff] hover:text-white transition-colors duration-300"
