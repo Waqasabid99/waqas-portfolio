@@ -194,13 +194,13 @@ const Portfolio = () => {
                                     </div> */}
 
                                     {/* Featured Badge */}
-                                    {project.featured && (
+                                    {/* {project.featured && (
                                         <div className="absolute top-2 right-2">
                                             <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-medium">
                                                 Featured
                                             </span>
                                         </div>
-                                    )}
+                                    )} */}
                                 </div>
 
                                 {/* Card Content */}
