@@ -9,7 +9,7 @@ const Portfolio = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+
     const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com';
 
     useEffect(() => {
@@ -20,9 +20,9 @@ const Portfolio = () => {
         try {
             setLoading(true);
             setError(null);
-            
+
             const response = await axios.get(`${API_BASE_URL}/portfolio-projects`);
-            
+
             if (response.data.success) {
                 setProjects(response.data.projects);
             } else {
@@ -41,15 +41,15 @@ const Portfolio = () => {
         { id: 'all', label: 'All Projects', count: projects.length },
         ...Array.from(new Set(projects.map(p => p.category))).map(category => ({
             id: category,
-            label: category.split('-').map(word => 
+            label: category.split('-').map(word =>
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' '),
             count: projects.filter(p => p.category === category).length
         }))
     ];
 
-    const filteredProjects = activeFilter === 'all' 
-        ? projects 
+    const filteredProjects = activeFilter === 'all'
+        ? projects
         : projects.filter(project => project.category === activeFilter);
 
     // Calculate stats from actual data
@@ -69,7 +69,7 @@ const Portfolio = () => {
                         <h3 className='text-[#1365ff] text-xl font-semibold'>Portfolio</h3>
                         <div className="w-3 h-2 bg-[#1365ff]"></div>
                     </div>
-                    
+
                     <div className="flex justify-center items-center py-20">
                         <div className="text-center">
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1365ff] mx-auto mb-4"></div>
@@ -90,7 +90,7 @@ const Portfolio = () => {
                         <h3 className='text-[#1365ff] text-xl font-semibold'>Portfolio</h3>
                         <div className="w-3 h-2 bg-[#1365ff]"></div>
                     </div>
-                    
+
                     <div className="flex justify-center items-center py-20">
                         <div className="text-center">
                             <div className="text-red-500 text-xl mb-4">Error Loading Portfolio</div>
@@ -116,14 +116,14 @@ const Portfolio = () => {
                     <h3 className='text-[#1365ff] text-xl font-semibold'>Portfolio</h3>
                     <div className="w-3 h-2 bg-[#1365ff]"></div>
                 </div>
-                
+
                 <div className="flex justify-between items-end mb-8">
                     <div>
                         <h1 className='text-4xl font-bold mb-3'>
                             My Recent <span className='text-[#1365ff]'>Projects</span>
                         </h1>
                         <p className='text-[#b7bdbd] max-w-2xl'>
-                            Explore my latest work showcasing web development, design, and SEO projects. 
+                            Explore my latest work showcasing web development, design, and SEO projects.
                             Each project represents my commitment to quality and innovation.
                         </p>
                     </div>
@@ -144,11 +144,10 @@ const Portfolio = () => {
                                 <button
                                     key={category.id}
                                     onClick={() => setActiveFilter(category.id)}
-                                    className={`px-6 py-2 rounded-full border-2 transition-all duration-300 ${
-                                        activeFilter === category.id
+                                    className={`px-6 py-2 rounded-full border-2 transition-all duration-300 ${activeFilter === category.id
                                             ? 'bg-[#1365ff] text-white border-[#1365ff]'
                                             : 'bg-white text-[#1365ff] border-[#1365ff] hover:bg-[#1365ff] hover:text-white'
-                                    }`}
+                                        }`}
                                 >
                                     {category.label} ({category.count})
                                 </button>
@@ -158,19 +157,19 @@ const Portfolio = () => {
 
                     <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
                         {filteredProjects.map(project => (
-                            <div 
-                                key={project.id} 
+                            <div
+                                key={project.id}
                                 className="project-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
                             >
                                 <div className="relative overflow-hidden">
-                                    <img 
-                                        src={project.image} 
+                                    <img
+                                        src={project.image}
                                         alt={project.title}
-                                        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                                        className="w-full h-48 object-cover"
                                     />
                                     <div className="absolute inset-0 bg-[#1365ff] bg-opacity-0 group-hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center">
                                         <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <a 
+                                            <a
                                                 href={project.live_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
@@ -179,7 +178,7 @@ const Portfolio = () => {
                                                 <FiEye className="text-xl" />
                                             </a>
                                             {project.github_url && (
-                                                <a 
+                                                <a
                                                     href={project.github_url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
@@ -206,18 +205,18 @@ const Portfolio = () => {
                                         </span>
                                         <FaExternalLinkAlt className="text-[#b7bdbd] text-sm" />
                                     </div>
-                                    
+
                                     <h3 className="text-xl font-semibold text-zinc-800 mb-2 group-hover:text-[#1365ff] transition-colors duration-300">
                                         {project.title}
                                     </h3>
-                                    
+
                                     <p className="text-[#b7bdbd] text-sm mb-4 leading-relaxed line-clamp-3">
                                         {project.description}
                                     </p>
-                                    
+
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {project.technologies.slice(0, 4).map((tech, index) => (
-                                            <span 
+                                            <span
                                                 key={index}
                                                 className="text-xs text-[#1365ff] border border-[#1365ff] px-2 py-1 rounded-md"
                                             >
@@ -230,9 +229,9 @@ const Portfolio = () => {
                                             </span>
                                         )}
                                     </div>
-                                    
+
                                     <div className="flex gap-2">
-                                        <a 
+                                        <a
                                             href={project.live_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -241,7 +240,7 @@ const Portfolio = () => {
                                             Live Demo
                                         </a>
                                         {project.github_url && (
-                                            <a 
+                                            <a
                                                 href={project.github_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
