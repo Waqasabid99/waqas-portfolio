@@ -163,11 +163,17 @@ const Portfolio = () => {
                             >
                                 <div className="relative">
                                     {/* Image */}
+                                    <a 
+                                    href={project.live_url}
+                                    target="_blank"
+                                    rel='noopener noreferrer'
+                                    >
                                     <img
                                         src={project.image}
                                         alt={project.title}
                                         className="w-full h-48 object-cover transition-all duration-300 group-hover:opacity-40"
                                     />
+                                    </a>
 
                                     {/* Hover Overlay */}
                                     {/* <div className="absolute inset-0 bg-[#1365ff] bg-opacity-0 group-hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center pointer-events-none">
