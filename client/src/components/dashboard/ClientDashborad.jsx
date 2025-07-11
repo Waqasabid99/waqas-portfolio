@@ -163,11 +163,15 @@ const ClientDashboard = () => {
   };
 
   const filteredProjects = projects.filter(project => {
-    const matchesSearch = project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.projectName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || project.status === filterStatus;
-    return matchesSearch && matchesFilter;
-  });
+  const title = project.projectTitle ?? '';
+  const name = project.projectName ?? '';
+  const search = searchTerm.toLowerCase();
+
+  const matchesSearch = title.toLowerCase().includes(search) || name.toLowerCase().includes(search);
+  const matchesFilter = filterStatus === 'all' || project.status === filterStatus;
+
+  return matchesSearch && matchesFilter;
+});
 
   const getStatusColor = (status) => {
     switch (status) {
