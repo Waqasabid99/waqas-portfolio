@@ -187,7 +187,7 @@ const AdminDashboard = () => {
   const exportData = () => {
     const csvContent = "data:text/csv;charset=utf-8," + 
       "ID,Client,Title,Category,Price,Deadline,Status,Created Date\n" +
-      projects.map(p => `${p.id},${p.username},${p.projectTitle},${p.category},${p.price},${p.deadline || 'N/A'},${p.status},${new Date(p.createdAt).toLocaleDateString()}`).join("\n");
+      projects.map(p => `${p.id},${p.username},${p.project_title},${p.category},${p.price},${p.deadline || 'N/A'},${p.status},${new Date(p.createdAt).toLocaleDateString()}`).join("\n");
     
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -201,7 +201,7 @@ const AdminDashboard = () => {
   const exportPortfolioData = () => {
     const csvContent = "data:text/csv;charset=utf-8," + 
       "ID,Title,Category,Status,Featured,Technologies,Live URL,Created Date\n" +
-      portfolioProjects.map(p => `${p.id},"${p.title}",${p.category},${p.status},${p.featured},"${p.technologies.join(', ')}",${p.liveUrl},${new Date(p.createdAt).toLocaleDateString()}`).join("\n");
+      portfolioProjects.map(p => `${p.id},"${p.title}",${p.category},${p.status},${p.featured},"${p.technologies.join(', ')}",${p.live_url},${new Date(p.createdAt).toLocaleDateString()}`).join("\n");
     
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -231,7 +231,7 @@ const AdminDashboard = () => {
       return new Date(a.deadline) - new Date(b.deadline);
     }
     if (sortBy === 'price') return b.price - a.price;
-    if (sortBy === 'title') return a.projectTitle.localeCompare(b.projectTitle);
+    if (sortBy === 'title') return a.project_title.localeCompare(b.project_title);
     if (sortBy === 'date') return new Date(b.createdAt) - new Date(a.createdAt);
     return 0;
   });
@@ -298,8 +298,8 @@ const AdminDashboard = () => {
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">Basic Information</h3>
                 <div className="space-y-2">
-                  <div><strong>Project Name:</strong> {project.projectName}</div>
-                  <div><strong>Title:</strong> {project.projectTitle}</div>
+                  <div><strong>Project Name:</strong> {project.project_name}</div>
+                  <div><strong>Title:</strong> {project.projec_title}</div>
                   <div><strong>Category:</strong> <span className="capitalize">{project.category?.replace('-', ' ')}</span></div>
                   <div><strong>Client:</strong> {project.username}</div>
                   <div><strong>Email:</strong> {project.email}</div>
@@ -583,10 +583,10 @@ const AdminDashboard = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
                           <div className="text-sm font-medium text-gray-900">
-                            {project.projectTitle}
+                            {project.project_title}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {project.projectName}
+                            {project.project_name}
                           </div>
                         </div>
                       </td>
@@ -745,7 +745,7 @@ const AdminDashboard = () => {
                           <h3 className="text-lg font-semibold text-gray-900 truncate">{project.title}</h3>
                           <div className="flex space-x-1">
                             <button
-                              onClick={() => window.open(project.liveUrl, '_blank')}
+                              onClick={() => window.open(project.live_url, '_blank')}
                               className="text-blue-600 hover:text-blue-900"
                               title="View Live Project"
                             >
