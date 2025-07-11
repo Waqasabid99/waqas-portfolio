@@ -170,7 +170,7 @@ const Portfolio = () => {
                                     />
 
                                     {/* Hover Overlay */}
-                                    <div className="absolute inset-0 bg-[#1365ff] bg-opacity-0 group-hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center pointer-events-none">
+                                    {/* <div className="absolute inset-0 bg-[#1365ff] bg-opacity-0 group-hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center pointer-events-none">
                                         <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
                                             <a
                                                 href={project.live_url}
@@ -191,7 +191,7 @@ const Portfolio = () => {
                                                 </a>
                                             )}
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {/* Featured Badge */}
                                     {project.featured && (
