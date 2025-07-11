@@ -62,8 +62,8 @@ const ClientDashboard = () => {
       console.log('fetchUserProjects: Projects fetched successfully. Count:', data.projects.length);
       const transformedProjects = data.projects.map(project => ({
         id: project.id,
-        projectTitle: project.projectTitle,
-        projectName: project.projectName,
+        projectTitle: project.project_title,
+        projectName: project.project_name,
         category: project.category,
         deadline: project.deadline,
         status: mapStatus(project.status),
