@@ -161,13 +161,13 @@ const Portfolio = () => {
                                 key={project.id}
                                 className="project-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
                             >
-                                <div className="relative overflow-hidden">
+                                <div className="relative">
                                     <img
                                         src={project.image}
                                         alt={project.title}
                                         className="w-full h-48 object-cover"
                                     />
-                                    <div className="absolute inset-0 bg-[#1365ff] bg-opacity-0 group-hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center">
+                                    {/* <div className="absolute inset-0 bg-[#1365ff] bg-opacity-0 group-hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center">
                                         <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <a
                                                 href={project.live_url}
@@ -195,7 +195,7 @@ const Portfolio = () => {
                                                 Featured
                                             </span>
                                         </div>
-                                    )}
+                                    )} */}
                                 </div>
 
                                 <div className="p-6">
