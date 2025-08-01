@@ -7,13 +7,13 @@ function Hero(props) {
     <div id='home' className="mt-20 px-5 md:px-10 lg:px-20 flex flex-col md:flex-row items-center md:items-start gap-10">
       <div className="w-full md:w-1/2">
         <div className="relative mb-4">
-          <div className="absolute w-3 h-2 bg-[#1365ff] top-6 left-[-6px]"></div>
+{/*           <div className="absolute w-3 h-2 bg-[#1365ff] top-6 left-[-6px]"></div>
           <div className="absolute w-3 h-2 bg-[#1365ff] top-6 left-[14.5%]"></div>
           <p className=" z-10 border-1 border-black py-1 px-5 inline-block text-sm text-[#1365ff] bg-white">
             Hello !
-          </p>
-          <div className="absolute w-3 h-2 bg-[#1365ff] top-[-2px] left-[-5px]"></div>
-          <div className="absolute w-3 h-2 bg-[#1365ff] top-[-2px] left-19.5"></div>
+          </p> */}
+{/*           <div className="absolute w-3 h-2 bg-[#1365ff] top-[-2px] left-[-5px]"></div>
+          <div className="absolute w-3 h-2 bg-[#1365ff] top-[-2px] left-19.5"></div> */}
         </div>
 
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium leading-tight">
