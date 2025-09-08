@@ -19,7 +19,7 @@ const port = process.env.PORT || 3001;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'https://www.waqasabidwork.online',
+  origin: 'https://waqas-portfolio-qlpx.onrender.com',
   credentials: true
 }));
 
