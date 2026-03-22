@@ -37,6 +37,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend server is running!" });
 });
 
+app.get("/health", (req, res) => {
+  res.json({ success: true, message: "All systems operational" });
+});
+
 // Routes
 app.use(userRoutes);
 app.use(projectRoutes);
