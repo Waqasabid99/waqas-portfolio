@@ -5,12 +5,12 @@ function getFeaturePrice(feature, type) {
       "social-login": 50,
       "live-chat": 40,
       "responsive-design": 30,
-      "admin-panel": 100
+      "admin-panel": 100,
     },
     "seo": {
       "on-page": 60,
       "off-page": 70,
-      "white-hat": 90
+      "white-hat": 90,
     },
     "digital-marketing": {
       "social-media-management": 200,
@@ -18,7 +18,7 @@ function getFeaturePrice(feature, type) {
       "email-marketing": 150,
       "influencer-marketing": 250,
       "affiliate-marketing": 180,
-      "conversion-optimization": 220
+      "conversion-optimization": 220,
     },
     "social-platform": {
       "facebook": 50,
@@ -26,7 +26,7 @@ function getFeaturePrice(feature, type) {
       "twitter": 40,
       "linkedin": 60,
       "youtube": 80,
-      "tiktok": 70
+      "tiktok": 70,
     },
     "content-type": {
       "blog-posts": 25,
@@ -36,7 +36,7 @@ function getFeaturePrice(feature, type) {
       "website-copy": 40,
       "press-releases": 50,
       "whitepapers": 100,
-      "case-studies": 80
+      "case-studies": 80,
     },
     "content-language": {
       "english": 0,
@@ -44,7 +44,7 @@ function getFeaturePrice(feature, type) {
       "french": 15,
       "german": 15,
       "arabic": 20,
-      "chinese": 25
+      "chinese": 25,
     },
     "app-feature": {
       "user-authentication": 80,
@@ -56,12 +56,11 @@ function getFeaturePrice(feature, type) {
       "geolocation": 90,
       "camera-integration": 70,
       "file-upload": 50,
-      "analytics": 60
-    }
+      "analytics": 60,
+    },
   };
 
   return prices[type]?.[feature] || 0;
 }
 
-module.exports = getFeaturePrice;
-
+export default getFeaturePrice;

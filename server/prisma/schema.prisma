@@ -1,0 +1,310 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// AUTH
+// ─────────────────────────────────────────────
+
+model User {
+  id         Int      @id @default(autoincrement())
+  full_name  String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  projects     Project[]
+  contactForms ContactForm[]
+
+  @@map("users")
+}
+
+model Admin {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  role       String   @default("admin")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("admins")
+}
+
+// ─────────────────────────────────────────────
+// CONTACT
+// ─────────────────────────────────────────────
+
+model ContactForm {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  subject    String
+  message    String
+  user_id    Int?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User? @relation(fields: [user_id], references: [id])
+
+  @@map("contact_forms")
+}
+
+// ─────────────────────────────────────────────
+// PORTFOLIO (admin showcase projects)
+// ─────────────────────────────────────────────
+
+model PortfolioProject {
+  id           Int      @id @default(autoincrement())
+  title        String
+  category     String
+  image        String
+  description  String
+  technologies String // stored as JSON string
+  live_url     String
+  github_url   String?
+  featured     Boolean  @default(false)
+  status       String   @default("active")
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@map("portfolio_projects")
+}
+
+// ─────────────────────────────────────────────
+// CLIENT PROJECTS
+// ─────────────────────────────────────────────
+
+model Project {
+  id            Int      @id @default(autoincrement())
+  username      String
+  email         String
+  password      String
+  project_name  String
+  project_title String
+  category      String
+  price         Float    @default(0)
+  deadline      String?
+  details       String?
+  user_id       Int
+  status        String   @default("pending")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id])
+
+  statusHistory           ProjectStatusHistory[]
+  webDevelopmentDetail    WebDevelopmentDetail?
+  seoDetail               SeoDetail?
+  digitalMarketingDetail  DigitalMarketingDetail?
+  contentGenerationDetail ContentGenerationDetail?
+  appDevelopmentDetail    AppDevelopmentDetail?
+
+  @@map("projects")
+}
+
+model ProjectStatusHistory {
+  id         Int      @id @default(autoincrement())
+  project_id Int
+  old_status String
+  new_status String
+  changed_by String
+  notes      String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+
+  @@map("project_status_history")
+}
+
+// ─────────────────────────────────────────────
+// WEB DEVELOPMENT
+// ─────────────────────────────────────────────
+
+model WebDevelopmentDetail {
+  id         Int      @id @default(autoincrement())
+  project_id Int      @unique
+  tech       String   @default("")
+  web_pages  Int      @default(0)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  project  Project                 @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  features WebDevelopmentFeature[]
+
+  @@map("web_development_details")
+}
+
+model WebDevelopmentFeature {
+  id                Int      @id @default(autoincrement())
+  web_dev_detail_id Int
+  feature           String
+  price             Float    @default(0)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  webDevelopmentDetail WebDevelopmentDetail @relation(fields: [web_dev_detail_id], references: [id], onDelete: Cascade)
+
+  @@map("web_development_features")
+}
+
+// ─────────────────────────────────────────────
+// SEO
+// ─────────────────────────────────────────────
+
+model SeoDetail {
+  id         Int      @id @default(autoincrement())
+  project_id Int      @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  project  Project   @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  seoTypes SeoType[]
+
+  @@map("seo_details")
+}
+
+model SeoType {
+  id            Int      @id @default(autoincrement())
+  seo_detail_id Int
+  seo_type      String
+  price         Float    @default(0)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  seoDetail SeoDetail @relation(fields: [seo_detail_id], references: [id], onDelete: Cascade)
+
+  @@map("seo_types")
+}
+
+// ─────────────────────────────────────────────
+// DIGITAL MARKETING
+// ─────────────────────────────────────────────
+
+model DigitalMarketingDetail {
+  id               Int      @id @default(autoincrement())
+  project_id       Int      @unique
+  target_audience  String?
+  marketing_budget Float?
+  duration         String?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  project         Project                   @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  services        DigitalMarketingService[]
+  socialPlatforms SocialPlatform[]
+
+  @@map("digital_marketing_details")
+}
+
+model DigitalMarketingService {
+  id                          Int      @id @default(autoincrement())
+  digital_marketing_detail_id Int
+  service                     String
+  price                       Float    @default(0)
+  created_at                  DateTime @default(now())
+  updated_at                  DateTime @updatedAt
+
+  digitalMarketingDetail DigitalMarketingDetail @relation(fields: [digital_marketing_detail_id], references: [id], onDelete: Cascade)
+
+  @@map("digital_marketing_services")
+}
+
+model SocialPlatform {
+  id                          Int      @id @default(autoincrement())
+  digital_marketing_detail_id Int
+  platform                    String
+  price                       Float    @default(0)
+  created_at                  DateTime @default(now())
+  updated_at                  DateTime @updatedAt
+
+  digitalMarketingDetail DigitalMarketingDetail @relation(fields: [digital_marketing_detail_id], references: [id], onDelete: Cascade)
+
+  @@map("social_platforms")
+}
+
+// ─────────────────────────────────────────────
+// CONTENT GENERATION
+// ─────────────────────────────────────────────
+
+model ContentGenerationDetail {
+  id              Int      @id @default(autoincrement())
+  project_id      Int      @unique
+  volume          String?
+  content_tone    String?
+  target_keywords String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  project          Project           @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  contentTypes     ContentType[]
+  contentLanguages ContentLanguage[]
+
+  @@map("content_generation_details")
+}
+
+model ContentType {
+  id                           Int      @id @default(autoincrement())
+  content_generation_detail_id Int
+  content_type                 String
+  price                        Float    @default(0)
+  created_at                   DateTime @default(now())
+  updated_at                   DateTime @updatedAt
+
+  contentGenerationDetail ContentGenerationDetail @relation(fields: [content_generation_detail_id], references: [id], onDelete: Cascade)
+
+  @@map("content_types")
+}
+
+model ContentLanguage {
+  id                           Int      @id @default(autoincrement())
+  content_generation_detail_id Int
+  language                     String
+  price                        Float    @default(0)
+  created_at                   DateTime @default(now())
+  updated_at                   DateTime @updatedAt
+
+  contentGenerationDetail ContentGenerationDetail @relation(fields: [content_generation_detail_id], references: [id], onDelete: Cascade)
+
+  @@map("content_languages")
+}
+
+// ─────────────────────────────────────────────
+// APP DEVELOPMENT
+// ─────────────────────────────────────────────
+
+model AppDevelopmentDetail {
+  id               Int      @id @default(autoincrement())
+  project_id       Int      @unique
+  app_type         String?
+  complexity       String?
+  target_platforms String?
+  expected_users   Int?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  project     Project      @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  appFeatures AppFeature[]
+
+  @@map("app_development_details")
+}
+
+model AppFeature {
+  id                        Int      @id @default(autoincrement())
+  app_development_detail_id Int
+  feature                   String
+  price                     Float    @default(0)
+  created_at                DateTime @default(now())
+  updated_at                DateTime @updatedAt
+
+  appDevelopmentDetail AppDevelopmentDetail @relation(fields: [app_development_detail_id], references: [id], onDelete: Cascade)
+
+  @@map("app_features")
+}

@@ -1,4 +1,4 @@
-const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req, res, next) => {
   if (req.session.userId) {
     next();
   } else {
@@ -6,13 +6,10 @@ const isAuthenticated = (req, res, next) => {
   }
 };
 
-const isAdminAuthenticated = (req, res, next) => {
+export const isAdminAuthenticated = (req, res, next) => {
   if (req.session.adminId) {
     next();
   } else {
     res.status(401).json({ success: false, message: "Admin authentication required" });
   }
 };
-
-module.exports = { isAuthenticated, isAdminAuthenticated };
-
