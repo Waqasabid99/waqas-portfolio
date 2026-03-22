@@ -1,4 +1,4 @@
-import { prisma } from "../config/prisma.js";
+import prisma from "../config/prisma.js";
 import { hashPassword, verifyPassword } from "../utils/auth.js";
 import getFeaturePrice from "../utils/priceCalculator.js";
 
