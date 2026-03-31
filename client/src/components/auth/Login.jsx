@@ -7,6 +7,7 @@ import api from '../../api/api';
 
 const LoginModal = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -15,15 +16,22 @@ const LoginModal = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    api.post('/login', formData).then((response) => {
+    setIsLoading(true);
+    api.post('/login', formData)
+    .then((response) => {
       if (response.data.success === true) {
+        setIsLoading(false);
         toast.success(response.data.message)
         setTimeout(() => {
           navigate('../dashboard')
         }, 2000);
       } else {
+        setIsLoading(false);
         toast.error(response.data.message || "Please Check your email and password")
       }
+    }).catch((error) => {
+      setIsLoading(false);
+      toast.error(error.response?.data?.message || 'Login failed');
     })
     console.log('Logging in with:', formData);
   };
@@ -71,7 +79,7 @@ const LoginModal = () => {
             type="submit"
             className="w-full bg-[#1365ff] text-white py-2 rounded-full hover:bg-white hover:text-[#1365ff] border border-[#1365ff] transition"
           >
-            Login
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 

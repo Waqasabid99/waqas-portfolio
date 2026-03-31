@@ -6,7 +6,7 @@ import api from '../../api/api';
 
 const SignupModal = ({ onLoginClick }) => {
   const [formData, setFormData] = useState({ full_name: '', email: '', password: ''});
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value, }))
   };
@@ -15,18 +15,22 @@ const SignupModal = ({ onLoginClick }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     console.log('Signup Data:', formData);
     api.post('/register', formData).then((response) => {
       if (response.data.success === true) {
+        setIsLoading(false);
         toast.success(response.data.message)
         setTimeout(() => {
           navigate('../dashboard')
         }, 2000);
       } else {
+        setIsLoading(false);
         toast.error(response.data.message)
       }
     })
     .catch((error) => {
+      setIsLoading(false);
       toast.error(error.response?.data?.message || 'Registration failed');
     });
   };
@@ -79,7 +83,7 @@ const SignupModal = ({ onLoginClick }) => {
             type="submit"
             className="w-full bg-[#1365ff] text-white py-2 rounded-full hover:bg-white hover:text-[#1365ff] border border-[#1365ff] transition"
           >
-            Sign Up
+            {isLoading ? 'Signing Up...' : 'Sign Up'}
           </button>
         </form>
 

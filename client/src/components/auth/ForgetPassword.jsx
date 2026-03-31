@@ -7,6 +7,7 @@ import api from '../../api/api';
 
 const ForgetPassword = () => {
   const [formData, setFormData] = useState({ email: '' , password: '', confirmpassword: ''})
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [emailIsVerfied, setemailIsVerfied] = useState(false)
   const navigate = useNavigate();
@@ -31,28 +32,41 @@ const ForgetPassword = () => {
 
   const handleEmailSubmit = (e) => {
     e.preventDefault()
-    api.post('/forget-password', formData).then((response)=>{
+    setIsLoading(true)
+    api.post('/forget-password', formData)
+    .then((response)=>{
       if (response.data.success === true) {
+        toast.success(response.data.message)
         setemailIsVerfied(true)
       } 
       if(response.data.success === false) {
+        setIsLoading(false)
         toast.error(response.data.message)
       }
       console.log(response)
+    }).catch((error) => {
+      setIsLoading(false)
+      toast.error(error.response?.data?.message || 'Login failed');
     })
   }
 
   const handleChangePassword = (e) => {
     e.preventDefault()
+    setIsLoading(true)
     api.post('/reset-password', formData).then((response) => {
       if (response.data.success === true) {
+        setIsLoading(false)
         toast.success(response.data.message)
         setTimeout(() => {
           navigate('../login')
         }, 2000);
       } else { 
+        setIsLoading(false)
         toast.error(response.data.message)
       }
+    }).catch((error) => {
+      setIsLoading(false)
+      toast.error(error.response?.data?.message || 'Login failed');
     })
   }
   return (
@@ -85,7 +99,7 @@ const ForgetPassword = () => {
                 type="submit"
                 className="w-full bg-[#1365ff] text-white py-2 rounded-full hover:bg-white hover:text-[#1365ff] border border-[#1365ff] transition"
               >
-                Verify Email
+                {isLoading ? 'verifying...' : 'Verify Email'}
               </button>
             </>
           )}
@@ -118,7 +132,7 @@ const ForgetPassword = () => {
                 type="submit"
                 className="w-full bg-[#1365ff] text-white py-2 rounded-full hover:bg-white hover:text-[#1365ff] border border-[#1365ff] transition"
               >
-                Change Password
+                {isLoading ? 'Changing Password...' : 'Change Password'}
               </button>
             </>
           )}
