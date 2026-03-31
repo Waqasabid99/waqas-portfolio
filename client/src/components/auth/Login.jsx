@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {Link, useNavigate} from 'react-router'
-import SignupModal from './Register';
-import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { use } from 'react';
+import api from '../../api/api';
 
 
 const LoginModal = () => {
@@ -17,7 +15,7 @@ const LoginModal = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://waqas-portfolio-qlpx.onrender.com/login', formData, { withCredentials: true}).then((response) => {
+    api.post('/login', formData).then((response) => {
       if (response.data.success === true) {
         toast.success(response.data.message)
         setTimeout(() => {

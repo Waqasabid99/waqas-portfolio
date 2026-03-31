@@ -56,7 +56,7 @@ const About = () => {
                     alt="Waqas Ali Abid - Web Developer"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1365ff] via-transparent to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-linear-to-t from-[#1365ff] via-transparent to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                 </div>
                 
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full animate-bounce"></div>

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu, X, Bell, Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, User, LogOut, Settings, RefreshCw, Link } from 'lucide-react';
 import { useNavigate } from 'react-router'
-import axios from 'axios'
+import api from '../../api/api';
 
 const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,9 +22,7 @@ const ClientNavbar = ({ onLogout, clientName = "Client Dashboard", user }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('https://waqas-portfolio-qlpx.onrender.com/logout', {}, {
-        withCredentials: true
-      });
+      const response = await api.post('/logout', {});
 
       if (response.status === 200) {
         if (onLogout) {

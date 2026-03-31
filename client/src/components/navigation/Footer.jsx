@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
 import { FaArrowCircleRight, FaLinkedin, FaGithub, FaTwitter, FaInstagram, FaWhatsapp, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
-import { BiCode, BiTrendingUp } from 'react-icons/bi';
 import { FiHeart, FiArrowUp } from 'react-icons/fi';
 
 const Footer = (props) => {
@@ -40,7 +38,7 @@ const Footer = (props) => {
             </div>
 
             <div className="relative px-15 pt-16 pb-8">
-                <div className="bg-gradient-to-r from-[#1365ff] to-[#0f4fb3] rounded-2xl p-8 mb-12 text-center relative overflow-hidden">
+                <div className="bg-linear-to-r from-[#1365ff] to-[#0f4fb3] rounded-2xl p-8 mb-12 text-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-10"></div>
                     <div className="relative z-10">
                         <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
@@ -123,17 +121,17 @@ const Footer = (props) => {
                         <h3 className="text-lg font-semibold mb-4">Get In Touch</h3>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 text-[#b7bdbd]">
-                                <FaMapMarkerAlt className="text-[#1365ff] text-lg flex-shrink-0" />
+                                <FaMapMarkerAlt className="text-[#1365ff] text-lg shrink-0" />
                                 <span>Lodhran, Punjab, Pakistan</span>
                             </div>
                             <div className="flex items-center gap-3 text-[#b7bdbd]">
-                                <FaEnvelope className="text-[#1365ff] text-lg flex-shrink-0" />
+                                <FaEnvelope className="text-[#1365ff] text-lg shrink-0" />
                                 <a href="mailto:contact@waqasabidwork.com" className="hover:text-[#1365ff] transition-colors duration-300">
                                     contact@waqasabidwork.online
                                 </a>
                             </div>
                             <div className="flex items-center gap-3 text-[#b7bdbd]">
-                                <FaPhone className="text-[#1365ff] text-lg flex-shrink-0" />
+                                <FaPhone className="text-[#1365ff] text-lg shrink-0" />
                                 <a href="tel:+923001234567" className="hover:text-[#1365ff] transition-colors duration-300">
                                     +92 320 870 3508
                                 </a>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
+import api from '../../api/api';
 
 const Select = ({ options, value, onChange, placeholder, isMulti = false }) => {
   const handleChange = (e) => {
@@ -190,8 +190,6 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
-  const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com';
 
   useEffect(() => {
     let base = 0;
@@ -402,7 +400,7 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
 
       console.log('Submitting payload:', payload);
 
-      const response = await axios.post(`${API_BASE_URL}/add-project`, payload, {
+      const response = await api.post(`/add-project`, payload, {
         headers: {
           'Content-Type': 'application/json',
         },

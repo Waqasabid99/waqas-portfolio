@@ -19,7 +19,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com';
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // Available categories
   const categoryOptions = [

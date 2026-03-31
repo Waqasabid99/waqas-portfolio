@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaArrowCircleRight, FaCode, FaRocket, FaPalette } from "react-icons/fa";
 import { TbWorldCode, TbSeo } from "react-icons/tb";
 import { BiTrendingUp, BiMobile, BiDesktop } from 'react-icons/bi';

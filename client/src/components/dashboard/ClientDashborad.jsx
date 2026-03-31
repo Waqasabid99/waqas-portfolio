@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu, X, Bell, Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, User, LogOut, Settings, RefreshCw, Link, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router'
 import ClientNavbar from './ClientNavbar';
 import ClientHireForm from './ClientHireForm';
-import axios from 'axios';
+import api from '../../api/api';
 
 const ClientDashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -20,9 +20,7 @@ const ClientDashboard = () => {
  const checkAuth = async () => {
   console.log('checkAuth: Initiating authentication check...');
   try {
-    const response = await axios.get('https://waqas-portfolio-qlpx.onrender.com/check-session', {
-      withCredentials: true
-    });
+    const response = await api.get('/check-session');
     
     const data = response.data;
     console.log('checkAuth: Response from /check-session:', data);
@@ -51,9 +49,7 @@ const ClientDashboard = () => {
     const fetchUserProjects = async () => {
   console.log('fetchUserProjects: Attempting to fetch user projects...');
   try {
-    const response = await axios.get('https://waqas-portfolio-qlpx.onrender.com/user-projects', {
-      withCredentials: true
-    });
+    const response = await api.get('/user-projects');
 
     const data = response.data;
     console.log('fetchUserProjects: Response from /user-projects:', data);

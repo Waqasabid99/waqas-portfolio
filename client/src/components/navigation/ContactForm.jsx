@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios'
+import { useState } from 'react';
+import api from '../../api/api';
 
 
 const ContactForm = (props) => {
@@ -18,12 +18,11 @@ const ContactForm = (props) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        'https://waqas-portfolio-qlpx.onrender.com/contact',
+      const res = await api.post(
+        '/contact',
         formData,
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
         }
       );
 
@@ -40,7 +39,7 @@ const ContactForm = (props) => {
 
   return (
     <div id="contact" className="w-full bg-[#f8f9fb] py-12 px-6 md:px-20">
-      <div className="max-w-screen-md mx-auto bg-white rounded-lg shadow-md p-8 border border-gray-100">
+      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8 border border-gray-100">
         <div className='flex justify-between items-start'>
         <h2 className="text-2xl font-bold text-[#1365ff] mb-6">Contact Me</h2>
         <button

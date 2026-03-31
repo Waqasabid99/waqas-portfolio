@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router'
-import axios from 'axios';
+import api from '../../api/api';
 
 const Select = ({ options, value, onChange, placeholder, isMulti = false }) => {
   const handleChange = (e) => {
@@ -414,7 +414,7 @@ const HireForm = ({ onCloseClick }) => {
 
       console.log('Submitting payload:', payload);
 
-      const response = await axios.post(`${API_BASE_URL}/hire`, payload, {
+      const response = await api.post(`/hire`, payload, {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Users, FolderOpen, Mail, Settings, LogOut, Bell, Search, BarChart3, Calendar, DollarSign, Eye, Edit, Trash2, Plus, Filter, Download } from 'lucide-react';
 
 const Navbar = ({ onLogout }) => {
@@ -8,7 +8,7 @@ const Navbar = ({ onLogout }) => {
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-screen-xl mx-auto px-6 md:px-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-20">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">

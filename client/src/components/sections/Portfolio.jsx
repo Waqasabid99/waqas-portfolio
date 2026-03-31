@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { FaArrowCircleRight, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { BiCode, BiTrendingUp } from 'react-icons/bi';
 import { FiEye } from 'react-icons/fi';
-import axios from 'axios';
+import api from '../../api/api';
 
 const Portfolio = () => {
     const [activeFilter, setActiveFilter] = useState('all');
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const API_BASE_URL = 'https://waqas-portfolio-qlpx.onrender.com';
 
     useEffect(() => {
         fetchPortfolioProjects();
@@ -21,7 +19,7 @@ const Portfolio = () => {
             setLoading(true);
             setError(null);
 
-            const response = await axios.get(`${API_BASE_URL}/portfolio-projects`);
+            const response = await api.get(`/portfolio-projects`);
 
             if (response.data.success) {
                 setProjects(response.data.projects);

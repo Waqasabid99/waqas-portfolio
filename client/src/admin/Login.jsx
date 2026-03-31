@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/api';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -20,12 +20,7 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const response = await axios.post('https://waqas-portfolio-qlpx.onrender.com/admin/login', formData, {
-        withCredentials: true, 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await api.post('/admin/login', formData);
 
       if (response.data.success) {
         // Admin login successful

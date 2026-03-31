@@ -1,4 +1,3 @@
-import React from 'react';
 import heroImage from '../../assets/bg-img.png';
 import HireForm from './HireForm';
 

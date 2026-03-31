@@ -1,8 +1,8 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import api from '../../api/api';
 
 
 const ForgetPassword = () => {
@@ -31,7 +31,7 @@ const ForgetPassword = () => {
 
   const handleEmailSubmit = (e) => {
     e.preventDefault()
-    axios.post('https://waqas-portfolio-qlpx.onrender.com/forget-password', formData).then((response)=>{
+    api.post('/forget-password', formData).then((response)=>{
       if (response.data.success === true) {
         setemailIsVerfied(true)
       } 
@@ -44,7 +44,7 @@ const ForgetPassword = () => {
 
   const handleChangePassword = (e) => {
     e.preventDefault()
-    axios.post('https://waqas-portfolio-qlpx.onrender.com/reset-password', formData).then((response) => {
+    api.post('/reset-password', formData).then((response) => {
       if (response.data.success === true) {
         toast.success(response.data.message)
         setTimeout(() => {
