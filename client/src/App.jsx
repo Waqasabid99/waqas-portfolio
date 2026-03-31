@@ -10,11 +10,12 @@ import Portfolio from './components/sections/Portfolio'
 import Services from './components/sections/Services'
 import axios, { Axios } from 'axios'
 import HireForm from './components/hero/HireForm'
+import api from './api/api'
 
 const App = () => {
 const [apiData, setApiData] = useState('')
   useEffect(() => {
-    axios.get("https://waqas-portfolio-qlpx.onrender.com/").then((response)=>{
+    api.get("/").then((response)=>{
       setApiData(response.data)
     })
   
