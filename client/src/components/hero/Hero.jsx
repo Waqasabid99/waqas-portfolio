@@ -1,4 +1,5 @@
 import heroImage from '../../assets/bg-img.png';
+import CodeFactoryScene from '../sections/CodeFactoryScene';
 import HireForm from './HireForm';
 
 function Hero(props) {
@@ -38,11 +39,7 @@ function Hero(props) {
       </div>
 
       <div className="w-full md:w-1/2 flex justify-center md:justify-end mt-10 md:mt-0">
-        <img
-          src={heroImage}
-          alt="Hero"
-          className="w-[80%] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
-        />
+        <CodeFactoryScene />
       </div>
     </div>
   );
