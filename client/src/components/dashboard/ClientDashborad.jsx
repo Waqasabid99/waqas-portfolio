@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import ClientNavbar from './ClientNavbar';
 import ClientHireForm from './ClientHireForm';
 import api from '../../api/api';
+import SEO from '../../hooks/SEO';
 
 const ClientDashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -17,79 +18,79 @@ const ClientDashboard = () => {
   const [showAddProject, setShowAddProject] = useState(false);
   const navigate = useNavigate()
 
- const checkAuth = async () => {
-  console.log('checkAuth: Initiating authentication check...');
-  try {
-    const response = await api.get('/check-session');
-    
-    const data = response.data;
-    console.log('checkAuth: Response from /check-session:', data);
+  const checkAuth = async () => {
+    console.log('checkAuth: Initiating authentication check...');
+    try {
+      const response = await api.get('/check-session');
 
-    if (data.success && data.isAuthenticated) {
-      console.log('checkAuth: User is authenticated. User data:', data.user);
-      setUser(data.user);
-      setIsAuthenticated(true);
-      return true;
-    } else {
-      console.log('checkAuth: User is NOT authenticated. Response:', data);
+      const data = response.data;
+      console.log('checkAuth: Response from /check-session:', data);
+
+      if (data.success && data.isAuthenticated) {
+        console.log('checkAuth: User is authenticated. User data:', data.user);
+        setUser(data.user);
+        setIsAuthenticated(true);
+        return true;
+      } else {
+        console.log('checkAuth: User is NOT authenticated. Response:', data);
+        setIsAuthenticated(false);
+        setUser(null);
+        return false;
+      }
+    } catch (error) {
+      console.error('checkAuth: Auth check error:', error.response ? error.response.data : error.message);
       setIsAuthenticated(false);
       setUser(null);
       return false;
     }
-  } catch (error) {
-    console.error('checkAuth: Auth check error:', error.response ? error.response.data : error.message);
-    setIsAuthenticated(false);
-    setUser(null);
-    return false;
-  }
-};
+  };
 
 
   // Fetch user projects
-    const fetchUserProjects = async () => {
-  console.log('fetchUserProjects: Attempting to fetch user projects...');
-  try {
-    const response = await api.get('/user-projects');
+  const fetchUserProjects = async () => {
+    console.log('fetchUserProjects: Attempting to fetch user projects...');
+    try {
+      const response = await api.get('/user-projects');
 
-    const data = response.data;
-    console.log('fetchUserProjects: Response from /user-projects:', data);
+      const data = response.data;
+      console.log('fetchUserProjects: Response from /user-projects:', data);
 
-    if (data.success) {
-      console.log('fetchUserProjects: Projects fetched successfully. Count:', data.projects.length);
-      const transformedProjects = data.projects.map(project => ({
-        id: project.id,
-        projectTitle: project.project_title,
-        projectName: project.project_name,
-        category: project.category,
-        deadline: project.deadline,
-        status: mapStatus(project.status),
-        progress: getProgressByStatus(project.status),
-        priority: getPriorityByCategory(project.category),
-        description: project.details || `${project.category} project`,
-        price: project.price,
-        createdAt: project.createdAt
-      }));
+      if (data.success) {
+        console.log('fetchUserProjects: Projects fetched successfully. Count:', data.projects.length);
+        const transformedProjects = data.projects.map(project => ({
+          id: project.id,
+          projectTitle: project.project_title,
+          projectName: project.project_name,
+          category: project.category,
+          deadline: project.deadline,
+          status: mapStatus(project.status),
+          progress: getProgressByStatus(project.status),
+          priority: getPriorityByCategory(project.category),
+          description: project.details || `${project.category} project`,
+          price: project.price,
+          createdAt: project.createdAt
+        }));
 
-      setProjects(transformedProjects);
+        setProjects(transformedProjects);
 
-      // Calculate stats
-      const completed = transformedProjects.filter(p => p.status === 'Completed').length;
-      const pending = transformedProjects.filter(p => p.status === 'Pending').length;
-      const inProgress = transformedProjects.filter(p => p.status === 'In Progress').length;
+        // Calculate stats
+        const completed = transformedProjects.filter(p => p.status === 'Completed').length;
+        const pending = transformedProjects.filter(p => p.status === 'Pending').length;
+        const inProgress = transformedProjects.filter(p => p.status === 'In Progress').length;
 
-      setStats({ 
-        total: transformedProjects.length, 
-        completed, 
-        pending, 
-        inProgress 
-      });
-      console.log('fetchUserProjects: Stats updated:', { total: transformedProjects.length, completed, pending, inProgress });
+        setStats({
+          total: transformedProjects.length,
+          completed,
+          pending,
+          inProgress
+        });
+        console.log('fetchUserProjects: Stats updated:', { total: transformedProjects.length, completed, pending, inProgress });
+      }
+    } catch (error) {
+      console.error('fetchUserProjects: Fetch projects error:', error.response ? error.response.data : error.message);
+      setError('Failed to load projects');
     }
-  } catch (error) {
-    console.error('fetchUserProjects: Fetch projects error:', error.response ? error.response.data : error.message);
-    setError('Failed to load projects');
-  }
-};
+  };
 
 
   // Helper functions
@@ -117,7 +118,7 @@ const ClientDashboard = () => {
   };
 
   const formatCategoryName = (category) => {
-    return category.split('-').map(word => 
+    return category.split('-').map(word =>
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
   };
@@ -126,13 +127,13 @@ const ClientDashboard = () => {
     const initializeDashboard = async () => {
       setIsLoading(true);
       const isAuth = await checkAuth();
-      
+
       if (isAuth) {
         await fetchUserProjects();
       } else {
         setError('Please log in to view your dashboard');
       }
-      
+
       setIsLoading(false);
     };
 
@@ -159,15 +160,15 @@ const ClientDashboard = () => {
   };
 
   const filteredProjects = projects.filter(project => {
-  const title = project.projectTitle ?? '';
-  const name = project.projectName ?? '';
-  const search = searchTerm.toLowerCase();
+    const title = project.projectTitle ?? '';
+    const name = project.projectName ?? '';
+    const search = searchTerm.toLowerCase();
 
-  const matchesSearch = title.toLowerCase().includes(search) || name.toLowerCase().includes(search);
-  const matchesFilter = filterStatus === 'all' || project.status === filterStatus;
+    const matchesSearch = title.toLowerCase().includes(search) || name.toLowerCase().includes(search);
+    const matchesFilter = filterStatus === 'all' || project.status === filterStatus;
 
-  return matchesSearch && matchesFilter;
-});
+    return matchesSearch && matchesFilter;
+  });
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -224,8 +225,8 @@ const ClientDashboard = () => {
         <div className="text-center bg-white p-8 rounded-xl shadow-lg">
           <h2 className="text-2xl font-bold text-[#1365ff] mb-4">Authentication Required</h2>
           <p className="text-gray-600 mb-6">Please log in to access your dashboard</p>
-          <button 
-            onClick={() => window.location.href = '/login'} 
+          <button
+            onClick={() => window.location.href = '/login'}
             className="bg-[#1365ff] text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
           >
             Go to Login
@@ -251,7 +252,7 @@ const ClientDashboard = () => {
               Cancel
             </button>
           </div>
-          <ClientHireForm 
+          <ClientHireForm
             onProjectAdded={handleProjectAdded}
             onCancel={handleCloseAddProject}
             user={user}
@@ -263,8 +264,16 @@ const ClientDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9fb]">
+      <SEO
+        title={"Dashboard | Waqas Ali Abid | Portfolio"}
+        description={"Dashboard | Waqas Ali Abid | Portfolio"}
+        keywords={"Waqas Ali Abid, Dashboard, Waqas, Ali, Abid"}
+        image={""}
+        url={""}
+        type={"website"}
+      />
       <ClientNavbar onLogout={handleLogout} user={user} />
-      
+
       <div className="w-full px-6 md:px-20 py-12 text-[#333]">
         <div className="mb-8 flex justify-between items-center">
           <div>
@@ -274,14 +283,14 @@ const ClientDashboard = () => {
             <p className="text-gray-600">Track your projects and monitor progress</p>
           </div>
           <div className="flex gap-3">
-            <button 
+            <button
               onClick={refreshProjects}
               className="flex items-center gap-2 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
             >
               <RefreshCw size={16} />
               Refresh
             </button>
-            <button 
+            <button
               onClick={addProject}
               className="flex items-center gap-2 bg-[#1365ff] text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
             >
@@ -309,7 +318,7 @@ const ClientDashboard = () => {
             <p className="text-3xl font-bold text-gray-800">{stats.total}</p>
             <p className="text-sm text-gray-500 mt-1">All time</p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-green-600">Completed</h3>
@@ -320,7 +329,7 @@ const ClientDashboard = () => {
             <p className="text-3xl font-bold text-gray-800">{stats.completed}</p>
             <p className="text-sm text-gray-500 mt-1">Successfully delivered</p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-blue-600">In Progress</h3>
@@ -331,7 +340,7 @@ const ClientDashboard = () => {
             <p className="text-3xl font-bold text-gray-800">{stats.inProgress}</p>
             <p className="text-sm text-gray-500 mt-1">Currently working</p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-yellow-600">Pending</h3>
@@ -386,7 +395,7 @@ const ClientDashboard = () => {
                   {project.priority}
                 </div>
               </div>
-              
+
               <div className="space-y-3 mb-4">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Project Name:</span>
@@ -415,7 +424,7 @@ const ClientDashboard = () => {
                     <span className="font-medium">{project.progress}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className="bg-[#1365ff] h-2 rounded-full transition-all duration-300"
                       style={{ width: `${project.progress}%` }}
                     ></div>
@@ -443,8 +452,8 @@ const ClientDashboard = () => {
             </div>
             <h3 className="text-xl font-semibold text-gray-600 mb-2">No projects found</h3>
             <p className="text-gray-500">
-              {projects.length === 0 ? 
-                "You haven't created any projects yet. Start by submitting a project request!" : 
+              {projects.length === 0 ?
+                "You haven't created any projects yet. Start by submitting a project request!" :
                 "Try adjusting your search or filter criteria"
               }
             </p>

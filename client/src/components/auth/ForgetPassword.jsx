@@ -3,51 +3,52 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../api/api';
+import SEO from '../../hooks/SEO';
 
 
 const ForgetPassword = () => {
-  const [formData, setFormData] = useState({ email: '' , password: '', confirmpassword: ''})
+  const [formData, setFormData] = useState({ email: '', password: '', confirmpassword: '' })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [emailIsVerfied, setemailIsVerfied] = useState(false)
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
+    const { name, value } = e.target;
 
-  setFormData((prev) => {
-    const updatedForm = { ...prev, [name]: value };
+    setFormData((prev) => {
+      const updatedForm = { ...prev, [name]: value };
 
-    if (updatedForm.password !== updatedForm.confirmpassword) {
-      setError('Passwords do not match');
-    } else {
-      setError('');
-    }
+      if (updatedForm.password !== updatedForm.confirmpassword) {
+        setError('Passwords do not match');
+      } else {
+        setError('');
+      }
 
-    return updatedForm;
-  });
+      return updatedForm;
+    });
 
-  console.log(formData);
-};
+    console.log(formData);
+  };
 
   const handleEmailSubmit = (e) => {
     e.preventDefault()
     setIsLoading(true)
     api.post('/forget-password', formData)
-    .then((response)=>{
-      if (response.data.success === true) {
-        toast.success(response.data.message)
-        setemailIsVerfied(true)
-      } 
-      if(response.data.success === false) {
+      .then((response) => {
+        if (response.data.success === true) {
+          toast.success(response.data.message)
+          setemailIsVerfied(true)
+        }
+        if (response.data.success === false) {
+          setIsLoading(false)
+          toast.error(response.data.message)
+        }
+        console.log(response)
+      }).catch((error) => {
         setIsLoading(false)
-        toast.error(response.data.message)
-      }
-      console.log(response)
-    }).catch((error) => {
-      setIsLoading(false)
-      toast.error(error.response?.data?.message || 'Login failed');
-    })
+        toast.error(error.response?.data?.message || 'Login failed');
+      })
   }
 
   const handleChangePassword = (e) => {
@@ -60,7 +61,7 @@ const ForgetPassword = () => {
         setTimeout(() => {
           navigate('../login')
         }, 2000);
-      } else { 
+      } else {
         setIsLoading(false)
         toast.error(response.data.message)
       }
@@ -71,6 +72,14 @@ const ForgetPassword = () => {
   }
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4">
+      <SEO
+        title={"Forget Password | Waqas Ali Abid | Portfolio"}
+        description={"Forget Password to Waqas Ali Abid | Portfolio"}
+        keywords={"Waqas Ali Abid, Forget Password, Waqas, Ali, Abid"}
+        image={""}
+        url={""}
+        type={"website"}
+      />
       <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-8 relative">
         <button
           onClick={() => navigate(-1)}
@@ -84,7 +93,7 @@ const ForgetPassword = () => {
         <form className="space-y-5" onSubmit={handleEmailSubmit}>
           {!emailIsVerfied && (
             <>
-            <ToastContainer />
+              <ToastContainer />
               <input
                 value={formData.email}
                 onChange={handleChange}
@@ -103,9 +112,9 @@ const ForgetPassword = () => {
               </button>
             </>
           )}
-          </form>
+        </form>
 
-          <form className="space-y-5" onSubmit={handleChangePassword}>
+        <form className="space-y-5" onSubmit={handleChangePassword}>
           {emailIsVerfied && (
             <>
               <input

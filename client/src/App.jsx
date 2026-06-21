@@ -8,26 +8,27 @@ import ScrollToTop from './components/navigation/ScrollToTop'
 import About from './components/sections/About'
 import Portfolio from './components/sections/Portfolio'
 import Services from './components/sections/Services'
-import axios, { Axios } from 'axios'
 import HireForm from './components/hero/HireForm'
 import api from './api/api'
+import SEO from './hooks/SEO'
 
-const App = () => {
-const [apiData, setApiData] = useState('')
+const App = ({ metadata = {} }) => {
+
+  const [apiData, setApiData] = useState('')
   useEffect(() => {
-    api.get("/").then((response)=>{
+    api.get("/").then((response) => {
       setApiData(response.data)
     })
-  
-  }, [])
-  
 
- const [showHireForm, setShowHireForm] = useState(false);
- const [showContactForm, setShowContactForm] = useState(false);
+  }, [])
+
+
+  const [showHireForm, setShowHireForm] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
 
   const onHireClick = () => {
     setShowHireForm(true);
-    setShowContactForm(false); 
+    setShowContactForm(false);
   };
 
   const onCloseClick = () => {
@@ -49,16 +50,24 @@ const [apiData, setApiData] = useState('')
 
   return (
     <>
-    {/* <h1>{apiData}</h1> */}
-      {!showHireForm && !showContactForm &&(
+      <SEO
+        title={metadata.title}
+        description={metadata.description}
+        keywords={metadata.keywords}
+        image={metadata.image}
+        url={metadata.url}
+        type={metadata.type}
+      />
+      {/* <h1>{apiData}</h1> */}
+      {!showHireForm && !showContactForm && (
         <>
-          <Navbar onWhatsClick = {handleWhatsappBtn} />
-          <Hero onHireClick={onHireClick} onWhatsClick = {handleWhatsappBtn} />
+          <Navbar onWhatsClick={handleWhatsappBtn} />
+          <Hero onHireClick={onHireClick} onWhatsClick={handleWhatsappBtn} />
           <ServMarquee />
           <Services />
           <About />
           <Portfolio />
-          <Footer onContactClick = {onContactClick} onWhatsClick = {handleWhatsappBtn} />
+          <Footer onContactClick={onContactClick} onWhatsClick={handleWhatsappBtn} />
           <ScrollToTop />
         </>
 
@@ -66,17 +75,17 @@ const [apiData, setApiData] = useState('')
 
       {showHireForm && (
         <>
-        <Navbar onWhatsClick = {handleWhatsappBtn}/>
-        <HireForm onCloseClick = {onCloseClick} />
-        <Footer onContactClick = {onContactClick} onWhatsClick = {handleWhatsappBtn}/>
+          <Navbar onWhatsClick={handleWhatsappBtn} />
+          <HireForm onCloseClick={onCloseClick} />
+          <Footer onContactClick={onContactClick} onWhatsClick={handleWhatsappBtn} />
         </>
       )}
 
-      {showContactForm &&(
+      {showContactForm && (
         <>
-        <Navbar onWhatsClick = {handleWhatsappBtn} />
-        <ContactForm onCloseClick = {onCloseClick} />
-        {/* <Footer onContactClick = {onContactClick} /> */}
+          <Navbar onWhatsClick={handleWhatsappBtn} />
+          <ContactForm onCloseClick={onCloseClick} />
+          {/* <Footer onContactClick = {onContactClick} /> */}
         </>
       )}
     </>

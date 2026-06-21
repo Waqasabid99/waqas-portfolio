@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../api/api';
+import SEO from '../../hooks/SEO';
 
 const SignupModal = ({ onLoginClick }) => {
-  const [formData, setFormData] = useState({ full_name: '', email: '', password: ''});
+  const [formData, setFormData] = useState({ full_name: '', email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value, }))
@@ -29,14 +30,22 @@ const SignupModal = ({ onLoginClick }) => {
         toast.error(response.data.message)
       }
     })
-    .catch((error) => {
-      setIsLoading(false);
-      toast.error(error.response?.data?.message || 'Registration failed');
-    });
+      .catch((error) => {
+        setIsLoading(false);
+        toast.error(error.response?.data?.message || 'Registration failed');
+      });
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4">
+      <SEO
+        title={"Register | Waqas Ali Abid | Portfolio"}
+        description={"Register to Waqas Ali Abid | Portfolio"}
+        keywords={"Waqas Ali Abid, Register, Waqas, Ali, Abid"}
+        image={""}
+        url={""}
+        type={"website"}
+      />
       <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-8 relative">
         <Link
           to='/'

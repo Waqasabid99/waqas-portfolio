@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import {Link, useNavigate} from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../api/api';
+import SEO from '../../hooks/SEO';
 
 
 const LoginModal = () => {
@@ -18,26 +19,34 @@ const LoginModal = () => {
     e.preventDefault();
     setIsLoading(true);
     api.post('/login', formData)
-    .then((response) => {
-      if (response.data.success === true) {
+      .then((response) => {
+        if (response.data.success === true) {
+          setIsLoading(false);
+          toast.success(response.data.message)
+          setTimeout(() => {
+            navigate('../dashboard')
+          }, 2000);
+        } else {
+          setIsLoading(false);
+          toast.error(response.data.message || "Please Check your email and password")
+        }
+      }).catch((error) => {
         setIsLoading(false);
-        toast.success(response.data.message)
-        setTimeout(() => {
-          navigate('../dashboard')
-        }, 2000);
-      } else {
-        setIsLoading(false);
-        toast.error(response.data.message || "Please Check your email and password")
-      }
-    }).catch((error) => {
-      setIsLoading(false);
-      toast.error(error.response?.data?.message || 'Login failed');
-    })
+        toast.error(error.response?.data?.message || 'Login failed');
+      })
     console.log('Logging in with:', formData);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4">
+      <SEO
+        title={"Login | Waqas Ali Abid | Portfolio"}
+        description={"Login to Waqas Ali Abid | Portfolio"}
+        keywords={"Waqas Ali Abid, Login, Waqas, Ali, Abid"}
+        image={""}
+        url={""}
+        type={"website"}
+      />
       <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-8 relative">
         <Link
           to='/'

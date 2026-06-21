@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Plus, Trash2, Save, User, Mail, Lock, FileText, Calendar, DollarSign, Tag, Globe, Smartphone, Search, TrendingUp, PenTool } from 'lucide-react';
 import axios from 'axios';
+import SEO from '../hooks/SEO';
 
 const AdminHireForm = ({ onClose, onProjectCreated }) => {
   const [formData, setFormData] = useState({
@@ -14,29 +15,29 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
     price: '',
     deadline: '',
     details: '',
-    
+
     // Web Development
     tech: '',
     webPages: '',
     webFeatures: [],
-    
+
     // SEO
     seoType: [],
-    
+
     // Digital Marketing
     digitalMarketingServices: [],
     socialPlatforms: [],
     marketingDuration: '',
     targetAudience: '',
     marketingBudget: '',
-    
+
     // Content Generation
     contentTypes: [],
     contentVolume: '',
     contentLanguages: [],
     contentTone: '',
     targetKeywords: '',
-    
+
     // App Development
     appType: '',
     appFeatures: [],
@@ -100,7 +101,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -147,7 +148,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -181,7 +182,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
               <Globe className="w-5 h-5 mr-2" />
               Web Development Details
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -196,7 +197,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Number of Pages
@@ -211,7 +212,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Features
@@ -242,7 +243,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
               <Search className="w-5 h-5 mr-2" />
               SEO Details
             </h3>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 SEO Types
@@ -273,7 +274,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
               <TrendingUp className="w-5 h-5 mr-2" />
               Digital Marketing Details
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -288,7 +289,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Marketing Budget ($)
@@ -302,7 +303,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Duration
@@ -322,7 +323,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 </select>
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Marketing Services
@@ -343,7 +344,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Social Platforms
@@ -374,7 +375,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
               <PenTool className="w-5 h-5 mr-2" />
               Content Generation Details
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -393,7 +394,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   <option value="bulk">Bulk (100+ pieces)</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Content Tone
@@ -412,7 +413,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   <option value="conversational">Conversational</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Target Keywords
@@ -427,7 +428,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Content Types
@@ -448,7 +449,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Languages
@@ -479,7 +480,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
               <Smartphone className="w-5 h-5 mr-2" />
               App Development Details
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -499,7 +500,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   <option value="hybrid">Hybrid</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Complexity
@@ -517,7 +518,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   <option value="enterprise">Enterprise</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Target Platforms
@@ -531,7 +532,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Expected Users
@@ -547,7 +548,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 App Features
@@ -578,6 +579,14 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <SEO
+        title={"Waqas Ali Abid | Portfolio"}
+        description={"Waqas Ali Abid | Portfolio"}
+        keywords={"Waqas Ali Abid, Waqas, Ali, Abid"}
+        image={"/og-image.jpg"}
+        url={"/portfolio"}
+        type={"website"}
+      />
       <div className="bg-white rounded-xl max-w-6xl max-h-[90vh] overflow-y-auto w-full">
         <div className="p-6 border-b border-gray-200">
           <div className="flex justify-between items-center">
@@ -591,7 +600,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
             </button>
           </div>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
@@ -599,7 +608,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
               <User className="w-5 h-5 mr-2" />
               Basic Information
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -610,14 +619,13 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   name="username"
                   value={formData.username}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.username ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.username ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Enter client name"
                 />
                 {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email *
@@ -627,14 +635,13 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.email ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Enter email address"
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Password *
@@ -644,9 +651,8 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.password ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.password ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Enter password"
                 />
                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
@@ -660,7 +666,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
               <FileText className="w-5 h-5 mr-2" />
               Project Information
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -671,14 +677,13 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   name="projectName"
                   value={formData.projectName}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.projectName ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.projectName ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Enter project name"
                 />
                 {errors.projectName && <p className="text-red-500 text-xs mt-1">{errors.projectName}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Project Title *
@@ -688,14 +693,13 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   name="projectTitle"
                   value={formData.projectTitle}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.projectTitle ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.projectTitle ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Enter project title"
                 />
                 {errors.projectTitle && <p className="text-red-500 text-xs mt-1">{errors.projectTitle}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Category *
@@ -704,9 +708,8 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.category ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.category ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 >
                   <option value="">Select category</option>
                   {categoryOptions.map(option => (
@@ -717,7 +720,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 </select>
                 {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Price ($)
@@ -729,14 +732,13 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                   onChange={handleInputChange}
                   min="0"
                   step="0.01"
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.price ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.price ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Enter project price"
                 />
                 {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Deadline
@@ -750,7 +752,7 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Project Details

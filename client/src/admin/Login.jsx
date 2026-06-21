@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import SEO from '../hooks/SEO';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const AdminLogin = () => {
       }
     } catch (err) {
       console.error('Login error:', err);
-      
+
       // Handle axios error response
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
@@ -45,6 +46,11 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f8f9fb] px-4">
+      <SEO
+        title="Admin Login"
+        description="Admin Login"
+        keywords="Admin Login"
+      />
       <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-lg border border-gray-100">
         <h2 className="text-2xl font-bold text-[#1365ff] mb-6 text-center">Admin Login</h2>
 
@@ -86,7 +92,7 @@ const AdminLogin = () => {
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        {/* <div className="mt-4 text-center">
           <p className="text-gray-600">
             Don't have an account?{' '}
             <button
@@ -96,7 +102,7 @@ const AdminLogin = () => {
               Create one here
             </button>
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

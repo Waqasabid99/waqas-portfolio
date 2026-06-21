@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import SEO from '../hooks/SEO';
 
 const AdminSignup = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const AdminSignup = () => {
       }
     } catch (err) {
       console.error('Registration error:', err);
-      
+
       // Handle axios error response
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
@@ -45,6 +46,11 @@ const AdminSignup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f8f9fb] px-4">
+      <SEO
+        title="Admin Signup"
+        description="Admin Signup"
+        keywords="Admin Signup"
+      />
       <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-lg border border-gray-100">
         <h2 className="text-2xl font-bold text-[#1365ff] mb-6 text-center">Create Admin Account</h2>
 

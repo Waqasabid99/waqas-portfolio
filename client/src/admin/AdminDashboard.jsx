@@ -94,7 +94,7 @@ const AdminDashboard = () => {
       try {
         setUpdating(true);
         const response = await axios.delete(`${API_BASE_URL}/admin/projects/${projectId}`);
-        
+
         if (response.data.success) {
           setProjects(projects.filter(p => p.id !== projectId));
           alert('Project deleted successfully!');
@@ -115,7 +115,7 @@ const AdminDashboard = () => {
       try {
         setUpdating(true);
         const response = await axios.delete(`${API_BASE_URL}/admin/portfolio-projects/${projectId}`);
-        
+
         if (response.data.success) {
           setPortfolioProjects(portfolioProjects.filter(p => p.id !== projectId));
           alert('Portfolio project deleted successfully!');
@@ -137,12 +137,12 @@ const AdminDashboard = () => {
       const response = await axios.put(`${API_BASE_URL}/admin/projects/${projectId}/status`, {
         status: newStatus
       });
-      
+
       if (response.data.success) {
-        setProjects(projects.map(p => 
+        setProjects(projects.map(p =>
           p.id === projectId ? { ...p, status: newStatus } : p
         ));
-        
+
         // Update stats if project is completed
         if (newStatus === 'completed') {
           fetchDashboardData();
@@ -185,10 +185,10 @@ const AdminDashboard = () => {
   };
 
   const exportData = () => {
-    const csvContent = "data:text/csv;charset=utf-8," + 
+    const csvContent = "data:text/csv;charset=utf-8," +
       "ID,Client,Title,Category,Price,Deadline,Status,Created Date\n" +
       projects.map(p => `${p.id},${p.username},${p.project_title},${p.category},${p.price},${p.deadline || 'N/A'},${p.status},${new Date(p.createdAt).toLocaleDateString()}`).join("\n");
-    
+
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -199,10 +199,10 @@ const AdminDashboard = () => {
   };
 
   const exportPortfolioData = () => {
-    const csvContent = "data:text/csv;charset=utf-8," + 
+    const csvContent = "data:text/csv;charset=utf-8," +
       "ID,Title,Category,Status,Featured,Technologies,Live URL,Created Date\n" +
       portfolioProjects.map(p => `${p.id},"${p.title}",${p.category},${p.status},${p.featured},"${p.technologies.join(', ')}",${p.live_url},${new Date(p.createdAt).toLocaleDateString()}`).join("\n");
-    
+
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -280,6 +280,14 @@ const AdminDashboard = () => {
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <SEO
+          title={"/ Waqas Ali Abid | Portfolio"}
+          description={"/ Waqas Ali Abid | Portfolio"}
+          keywords={"Waqas Ali Abid, Waqas, Ali, Abid"}
+          image={""}
+          url={""}
+          type={"website"}
+        />
         <div className="bg-white rounded-xl max-w-4xl max-h-[90vh] overflow-y-auto w-full">
           <div className="p-6 border-b border-gray-200">
             <div className="flex justify-between items-center">
@@ -292,7 +300,7 @@ const AdminDashboard = () => {
               </button>
             </div>
           </div>
-          
+
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -313,14 +321,14 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">Timeline</h3>
                 <div className="space-y-2">
                   <div><strong>Created:</strong> {new Date(project.createdAt).toLocaleDateString()}</div>
                   <div><strong>Updated:</strong> {new Date(project.updatedAt).toLocaleDateString()}</div>
                 </div>
-                
+
                 {/* Status Update Section */}
                 <div className="mt-6">
                   <h3 className="text-lg font-semibold text-gray-800 mb-3">Update Status</h3>
@@ -328,7 +336,7 @@ const AdminDashboard = () => {
                     value={project.status}
                     onChange={(e) => {
                       handleStatusChange(project.id, e.target.value);
-                      setSelectedProject({...project, status: e.target.value});
+                      setSelectedProject({ ...project, status: e.target.value });
                     }}
                     disabled={updating}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -341,7 +349,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </div>
-            
+
             {project.details && (
               <div className="mt-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">Project Details</h3>
@@ -391,7 +399,7 @@ const AdminDashboard = () => {
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-[#1365ff]">Admin Dashboard</h1>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <button className="p-2 text-gray-400 hover:text-gray-500">
                 <Bell className="w-6 h-6" />
@@ -470,21 +478,19 @@ const AdminDashboard = () => {
             <nav className="flex space-x-8 px-6">
               <button
                 onClick={() => setActiveTab('projects')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'projects'
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'projects'
                     ? 'border-[#1365ff] text-[#1365ff]'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 Client Projects ({stats.projects})
               </button>
               <button
                 onClick={() => setActiveTab('portfolio')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'portfolio'
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'portfolio'
                     ? 'border-[#1365ff] text-[#1365ff]'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 Portfolio Projects ({portfolioStats.total})
               </button>
@@ -498,7 +504,7 @@ const AdminDashboard = () => {
             <div className="p-6 border-b border-gray-200">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <h2 className="text-xl font-bold text-gray-900 mb-4 sm:mb-0">Client Projects Management</h2>
-                
+
                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                   {/* Filters */}
                   <div className="flex items-center space-x-2">
@@ -671,7 +677,7 @@ const AdminDashboard = () => {
             <div className="p-6 border-b border-gray-200">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <h2 className="text-xl font-bold text-gray-900 mb-4 sm:mb-0">Portfolio Projects Management</h2>
-                
+
                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                   {/* Portfolio Filters */}
                   <div className="flex items-center space-x-2">
@@ -739,7 +745,7 @@ const AdminDashboard = () => {
                           </span>
                         </div>
                       </div>
-                      
+
                       <div className="p-4">
                         <div className="flex items-center justify-between mb-2">
                           <h3 className="text-lg font-semibold text-gray-900 truncate">{project.title}</h3>
@@ -768,9 +774,9 @@ const AdminDashboard = () => {
                             </button>
                           </div>
                         </div>
-                        
+
                         <p className="text-sm text-gray-600 mb-3 line-clamp-2">{project.description}</p>
-                        
+
                         <div className="flex flex-wrap gap-1 mb-3">
                           {project.technologies.slice(0, 3).map((tech, index) => (
                             <span key={index} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
@@ -783,7 +789,7 @@ const AdminDashboard = () => {
                             </span>
                           )}
                         </div>
-                        
+
                         <div className="text-xs text-gray-500">
                           Category: <span className="capitalize">{project.category.replace('-', ' ')}</span>
                         </div>

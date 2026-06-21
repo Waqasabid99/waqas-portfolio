@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../../api/api';
+import SEO from '../../hooks/SEO';
 
 const Select = ({ options, value, onChange, placeholder, isMulti = false }) => {
   const handleChange = (e) => {
@@ -412,7 +413,7 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
 
       if (response.data.success) {
         setSuccess('Project added successfully!');
-        
+
         // Call the callback to notify parent component
         if (onProjectAdded) {
           onProjectAdded(response.data.project);
@@ -481,6 +482,14 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
 
   return (
     <div className="w-full px-6 md:px-20 py-10 bg-gray-50">
+      <SEO
+        title={"Add New Project | Waqas Ali Abid | Portfolio"}
+        description={"Add New Project | Waqas Ali Abid | Portfolio"}
+        keywords={"Waqas Ali Abid, Add New Project, Waqas, Ali, Abid"}
+        image={""}
+        url={""}
+        type={"website"}
+      />
       <div className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md border border-gray-100">
         <div className='flex justify-between items-start'>
           <h2 className="text-2xl font-bold text-blue-600 mb-6">Add New Project</h2>
@@ -736,7 +745,7 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
               className={`px-6 py-3 rounded-full border transition ${loading
                 ? 'bg-gray-400 text-white cursor-not-allowed'
                 : 'bg-blue-600 text-white hover:bg-white hover:text-blue-600 border-blue-600'
-              }`}
+                }`}
             >
               {loading ? 'Adding Project...' : 'Add Project'}
             </button>
