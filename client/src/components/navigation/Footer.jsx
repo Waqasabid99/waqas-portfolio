@@ -127,7 +127,7 @@ const Footer = (props) => {
                             <div className="flex items-center gap-3 text-[#b7bdbd]">
                                 <FaEnvelope className="text-[#1365ff] text-lg shrink-0" />
                                 <a href="mailto:contact@waqasabidwork.com" className="hover:text-[#1365ff] transition-colors duration-300">
-                                    contact@waqasabidwork.online
+                                    contact@waser.online
                                 </a>
                             </div>
                             <div className="flex items-center gap-3 text-[#b7bdbd]">

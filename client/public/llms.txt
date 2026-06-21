@@ -1,0 +1,19 @@
+# Waqas Ali Abid Portfolio
+
+> This is the official portfolio website for Waqas Ali Abid, providing a concise, LLM-friendly overview of the site structure, primary pages, and key content available for development and client engagement.
+
+This website presents professional software development services, portfolio case studies, and a simple client onboarding flow. It is built with React, Vite, Tailwind CSS, and connects to a backend API for authenticated client and admin workflows.
+
+## Site pages
+
+- [Home](https://waser.online/): Portfolio landing page with services, about section, project showcase, and contact actions.
+- [Login](https://waser.online/login): Client authentication entry point.
+- [Register](https://waser.online/register): Client signup page for new accounts.
+- [Forget Password](https://waser.online/forget-password): Account recovery page.
+- [Client Dashboard](https://waser.online/dashboard): Authenticated client project management interface.
+
+## Optional
+
+- [Admin Login](https://waser.online/admin/login): Administration access for managing portfolio and project content.
+- [Admin Register](https://waser.online/admin/register): Admin account creation page.
+- [Admin Dashboard](https://waser.online/admin/dashboard): Admin portal for portfolio and project management.

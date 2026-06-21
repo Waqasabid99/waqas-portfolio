@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://waser.online/sitemap.xml
+Host: waser.online

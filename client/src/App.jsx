@@ -43,7 +43,7 @@ const App = ({ metadata = {} }) => {
 
   const handleWhatsappBtn = () => {
     window.open(
-      "https://wa.me/923208703508?text=Hi%2C%20I%20came%20across%20your%20profile%20through%20Waqasabidwork.online%20and%20I'm%20interested%20in%20discussing%20a%20project%20with%20you",
+      "https://wa.me/923208703508?text=Hi%2C%20I%20came%20across%20your%20profile%20through%20waser.online%20and%20I'm%20interested%20in%20discussing%20a%20project%20with%20you",
       "_blank"
     );
   };
