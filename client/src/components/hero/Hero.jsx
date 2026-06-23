@@ -7,7 +7,7 @@ function Hero(props) {
   return (
     <div id='home' className="mt-20 px-5 md:px-10 lg:px-20 flex flex-col md:flex-row items-center md:items-start gap-10">
       <SEO
-        title={"/ Waqas Ali Abid | Portfolio"}
+        title={"Waqas Ali Abid | Portfolio"}
         description={"/ Waqas Ali Abid | Portfolio"}
         keywords={"Waqas Ali Abid, Waqas, Ali, Abid"}
         image={""}
@@ -27,13 +27,12 @@ function Hero(props) {
 
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium leading-tight">
           I'm <span className="text-[#1365ff] underline">Waqas Abid,</span>{' '}
-          Web Designer & Developer.
+          Full Stack Developer.
         </h1>
 
         <p className="text-[#b7bdbd] mt-4 mb-6 text-sm sm:text-base leading-relaxed">
-          I'm a Web Developer with over 5 years of experience. I specialize in
-          building responsive, high-performing websites using WordPress, HTML,
-          CSS, JavaScript, Bootstrap, and Shopify. Whether it's a custom design
+          I'm a Full Stack Developer with over 3 years of experience. I specialize in
+          building responsive, high-performing websites using React, Node.js, Express.js, PostgreSQL, MySQL, mongoDB and Shopify. Whether it's a custom design
           or optimization — I help businesses grow online with smart solutions.
         </p>
 
