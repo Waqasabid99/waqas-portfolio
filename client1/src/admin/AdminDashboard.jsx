@@ -35,7 +35,7 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('projects');
 
   axios.defaults.withCredentials = true;
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
 
   useEffect(() => {
     fetchDashboardData();
@@ -479,8 +479,8 @@ const AdminDashboard = () => {
               <button
                 onClick={() => setActiveTab('projects')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'projects'
-                    ? 'border-[#1365ff] text-[#1365ff]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-[#1365ff] text-[#1365ff]'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
               >
                 Client Projects ({stats.projects})
@@ -488,8 +488,8 @@ const AdminDashboard = () => {
               <button
                 onClick={() => setActiveTab('portfolio')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'portfolio'
-                    ? 'border-[#1365ff] text-[#1365ff]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-[#1365ff] text-[#1365ff]'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
               >
                 Portfolio Projects ({portfolioStats.total})

@@ -19,7 +19,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
 
   // Available categories
   const categoryOptions = [
@@ -54,7 +54,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -116,7 +116,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -124,10 +124,10 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
     setLoading(true);
 
     try {
-      const url = editProject 
+      const url = editProject
         ? `${API_BASE_URL}/admin/portfolio-projects/${editProject.id}`
         : `${API_BASE_URL}/admin/portfolio-projects`;
-      
+
       const method = editProject ? 'PUT' : 'POST';
 
       const response = await axios({
@@ -167,7 +167,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
             </button>
           </div>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
@@ -175,7 +175,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
               <FileText className="w-5 h-5 mr-2" />
               Basic Information
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -186,14 +186,13 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.title ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.title ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Enter project title"
                 />
                 {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Category *
@@ -202,9 +201,8 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.category ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.category ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 >
                   <option value="">Select category</option>
                   {categoryOptions.map(option => (
@@ -216,7 +214,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                 {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Project Description *
@@ -226,9 +224,8 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                 value={formData.description}
                 onChange={handleInputChange}
                 rows={4}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                  errors.description ? 'border-red-500' : 'border-gray-300'
-                }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.description ? 'border-red-500' : 'border-gray-300'
+                  }`}
                 placeholder="Enter project description..."
               />
               {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
@@ -241,7 +238,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
               <Link className="w-5 h-5 mr-2" />
               URLs and Media
             </h3>
-            
+
             <div className="grid grid-cols-1 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -253,9 +250,8 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                     name="image"
                     value={formData.image}
                     onChange={handleInputChange}
-                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.image ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.image ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="https://example.com/image.jpg"
                   />
                   {formData.image && (
@@ -270,7 +266,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                 </div>
                 {errors.image && <p className="text-red-500 text-xs mt-1">{errors.image}</p>}
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -281,14 +277,13 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                     name="liveUrl"
                     value={formData.liveUrl}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.liveUrl ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.liveUrl ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="https://project-demo.com"
                   />
                   {errors.liveUrl && <p className="text-red-500 text-xs mt-1">{errors.liveUrl}</p>}
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     GitHub URL (Optional)
@@ -298,9 +293,8 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                     name="githubUrl"
                     value={formData.githubUrl}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.githubUrl ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.githubUrl ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="https://github.com/username/repo"
                   />
                   {errors.githubUrl && <p className="text-red-500 text-xs mt-1">{errors.githubUrl}</p>}
@@ -315,7 +309,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
               <Tag className="w-5 h-5 mr-2" />
               Technologies Used *
             </h3>
-            
+
             {/* Selected Technologies */}
             {formData.technologies.length > 0 && (
               <div className="mb-4">
@@ -341,7 +335,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                 </div>
               </div>
             )}
-            
+
             {/* Add Custom Technology */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -365,7 +359,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                 </button>
               </div>
             </div>
-            
+
             {/* Common Technologies */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -378,18 +372,17 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                     type="button"
                     onClick={() => addTechnology(tech)}
                     disabled={formData.technologies.includes(tech)}
-                    className={`px-3 py-1 text-xs rounded-lg border transition-colors ${
-                      formData.technologies.includes(tech)
+                    className={`px-3 py-1 text-xs rounded-lg border transition-colors ${formData.technologies.includes(tech)
                         ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                         : 'bg-white text-[#1365ff] border-[#1365ff] hover:bg-[#1365ff] hover:text-white'
-                    }`}
+                      }`}
                   >
                     {tech}
                   </button>
                 ))}
               </div>
             </div>
-            
+
             {errors.technologies && <p className="text-red-500 text-xs mt-1">{errors.technologies}</p>}
           </div>
 
@@ -399,7 +392,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
               <Star className="w-5 h-5 mr-2" />
               Project Settings
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -418,7 +411,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
                   ))}
                 </select>
               </div>
-              
+
               <div className="flex items-center">
                 <label className="flex items-center cursor-pointer">
                   <input
