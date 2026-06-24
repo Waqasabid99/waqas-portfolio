@@ -35,13 +35,13 @@ export const registerUser = asyncHandler(async (req, res) => {
             email,
             password: passwordHash,
             role: role?.toUpperCase() || UserRole.USER,
-            status: status?.toUpperCase() || UserStatus.INACTIVE,
+            status: status?.toUpperCase() || UserStatus.ACTIVE,
         },
     });
 
     const safeUser = getSafeUser(user);
 
-    return apiResponse(res, 201, true, "Success, Verification email has been sent to your email.", { user: safeUser });
+    return apiResponse(res, 201, true, "User registered successfully.", { user: safeUser });
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
