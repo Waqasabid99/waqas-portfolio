@@ -1,166 +1,193 @@
-import api from "../api/api";
+import { authApi } from "@/api/authApi";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { toast } from "react-toastify";
+import api from "@/api/api";
 
-const useAuthStore = create(
+export const useAuthStore = create(
     persist(
         (set, get) => ({
             user: null,
-            isAuthenticated: false,
             role: null,
-
+            isAuthenticated: false,
             isLoading: false,
-
             error: null,
 
-            setAuthUser: (user) => {
+            // ─── Internal: called by api.js interceptor on unrecoverable 401 ───
+            _clearAuth: () => {
                 set({
-                    user,
-                    isAuthenticated: true,
-                    role: user?.role || null,
+                    user: null,
+                    role: null,
+                    isAuthenticated: false,
                     isLoading: false,
                     error: null,
                 });
             },
 
+            forceLogout: () => {
+                get()._clearAuth();
+            },
+
             register: async (formData) => {
                 try {
                     set({ isLoading: true, error: null });
-
-                    const { data } = await api.post("/register", formData);
-
-                    if (data?.success) {
-                        toast.success(data?.message);
-                        get().setAuthUser(data?.data?.user);
-                        return {
-                            success: true,
-                        };
-                    } else {
-                        throw new Error(data?.message);
-                    }
+                    const { data } = await authApi.post("/register", formData);
+                    set({
+                        user: data?.data?.user,
+                        role: data?.data?.user?.role,
+                        isAuthenticated: false,
+                        isLoading: false,
+                    });
+                    toast.success(data.message);
+                    return true;
                 } catch (error) {
-                    const message = error?.response?.data?.message || error.message;
+                    console.log(error.response.data.message)
                     set({
                         isLoading: false,
-                        error: message,
+                        error: error.response?.data?.message || error.message || "Something went wrong",
                     });
+                    toast.error(error.response?.data?.message || "Registration failed");
                 }
             },
 
             login: async (formData) => {
                 try {
                     set({ isLoading: true, error: null });
+                    const { data } = await authApi.post("/login", formData);
+                    set({
+                        user: data?.data?.user,
+                        role: data?.data?.user?.role,
+                        isAuthenticated: true,
+                        isLoading: false,
+                    });
+                    toast.success(data.message);
 
-                    const { data } = await api.post("/login", formData);
-                    console.log(data)
-                    if (data?.success) {
-                        toast.success(data?.message);
-                        get().setAuthUser(data?.data?.user);
-                        return {
-                            success: true,
-                        };
-                    } else {
-                        throw new Error(data?.message);
-                    }
+                    return true;
                 } catch (error) {
-                    const message = error?.response?.data?.message || error.message;
                     set({
                         isLoading: false,
-                        error: message,
+                        error: error.response?.data?.message || error.message || "Something went wrong",
                     });
+                    toast.error(error.response?.data?.message || "Login failed");
                 }
             },
 
             logout: async () => {
                 try {
-                    set({ isLoading: true });
-
-                    const { data } = await api.post("/logout");
-
-                    if (data?.success) {
-                        set({
-                            user: null,
-                            isAuthenticated: false,
-                            role: null,
-                            isLoading: false,
-                            error: null,
-                        });
-
-                        toast.success(data?.message);
-                    } else {
-                        throw new Error(data?.message);
-                    }
-                } catch (error) {
-                    const message = error?.response?.data?.message || error.message;
-
+                    set({ isLoading: true, error: null });
+                    const { data } = await authApi.post("/logout");
                     set({
+                        user: null,
+                        role: null,
+                        isAuthenticated: false,
                         isLoading: false,
-                        error: message,
                     });
-
-                    get().forceLogout();
+                    toast.success(data.message);
+                } catch (error) {
+                    // Even if the server call fails, clear local auth state
+                    set({
+                        user: null,
+                        role: null,
+                        isAuthenticated: false,
+                        isLoading: false,
+                        error: error.response?.data?.message || error.message || "Something went wrong",
+                    });
+                    toast.error(error.response?.data?.message || "Logout failed");
                 }
             },
 
-            forgotPassword: async (formData) => {
+            // Silent session check — no success toast (called on app boot)
+            verifyUser: async () => {
                 try {
                     set({ isLoading: true, error: null });
-
-                    const { data } = await api.post("/forget-password", formData);
-
-                    if (data?.success) {
-                        toast.success(data?.message);
-                        set({ isLoading: false });
-                    }
-                } catch (error) {
-                    const message = error?.response?.data?.message || error.message;
+                    const { data } = await authApi.post("/verify");
                     set({
+                        user: data?.data?.user,
+                        role: data?.data?.user?.role,
+                        isAuthenticated: true,
                         isLoading: false,
-                        error: message,
+                    });
+                } catch (error) {
+                    // Session is invalid — clear state silently
+                    set({
+                        user: null,
+                        role: null,
+                        isAuthenticated: false,
+                        isLoading: false,
+                        error: null,
                     });
                 }
             },
 
-            clearError: () => set({ error: null }),
-
-            checkAuth: async () => {
+            // Manually trigger a token refresh
+            refreshToken: async () => {
                 try {
-                    const { data } = await api.get("/verify");
-                    if (data?.success && data?.data?.user) {
-                        get().setAuthUser(data.data.user);
-                    } else {
-                        get().forceLogout();
-                    }
+                    await authApi.post("/refresh-token");
+                    return true;
                 } catch (error) {
-                    get().forceLogout();
-                } finally {
+                    get()._clearAuth();
+                    return false;
                 }
             },
 
-            forceLogout: () => {
-                set({
-                    user: null,
-                    avatar: null,
-                    isAuthenticated: false,
-                    permissions: [],
-                    role: null,
-                    isLoading: false,
-                    error: null,
-                });
+            forgetPassword: async (email) => {
+                try {
+                    set({ isLoading: true, error: null });
+                    const { data } = await api.post("/auth/forget-password", { email });
+                    set({ isLoading: false });
+                    toast.success(data.message);
+                } catch (error) {
+                    set({
+                        isLoading: false,
+                        error: error.response?.data?.message || error.message || "Something went wrong",
+                    });
+                    toast.error(error.response?.data?.message || "Forgot password request failed");
+                }
+            },
+
+            // Verify the email-link token and set a brand-new password
+            verifyPasswordReset: async ({ token, newPassword }) => {
+                try {
+                    set({ isLoading: true, error: null });
+                    const { data } = await api.post("/auth/verify-password-reset", { token, newPassword });
+                    set({ isLoading: false });
+                    toast.success(data.message);
+                    return true;
+                } catch (error) {
+                    set({
+                        isLoading: false,
+                        error: error.response?.data?.message || error.message || "Something went wrong",
+                    });
+                    toast.error(error.response?.data?.message || "Password reset failed");
+                    return false;
+                }
+            },
+
+            // Change password for an already authenticated user (old + new)
+            resetPassword: async (formData) => {
+                try {
+                    set({ isLoading: true, error: null });
+                    const { data } = await api.post("/auth/reset-password", formData);
+                    set({ isLoading: false });
+                    toast.success(data.message);
+                } catch (error) {
+                    set({
+                        isLoading: false,
+                        error: error.response?.data?.message || error.message || "Something went wrong",
+                    });
+                    toast.error(error.response?.data?.message || "Password reset failed");
+                }
             },
         }),
+
         {
-            name: "auth-store",
+            name: "portfolio-auth",
+            storage: createJSONStorage(() => localStorage),
             partialize: (state) => ({
                 user: state.user,
-                avatar: state.avatar,
-                isAuthenticated: state.isAuthenticated,
-                permissions: state.permissions,
                 role: state.role,
+                isAuthenticated: state.isAuthenticated,
             }),
         },
     ),
 );
-
-export default useAuthStore;
