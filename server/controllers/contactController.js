@@ -17,7 +17,7 @@ export const createContactMessage = async (req, res) => {
                 email,
                 subject,
                 message,
-                user_id: req.session?.userId || null,
+                user_id: req?.user?.id || null,
             },
         });
 

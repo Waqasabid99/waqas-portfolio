@@ -139,9 +139,9 @@ export const hireProject = async (req, res) => {
             return { user, project };
         });
 
-        req.session.userId = result.user.id;
-        req.session.userEmail = result.user.email;
-        req.session.userName = result.user.full_name;
+        req.user.id = result.user.id;
+        req.user.email = result.user.email;
+        req.user.full_name = result.user.full_name;
 
         res.status(201).json({
             success: true,
@@ -187,7 +187,7 @@ export const addProject = async (req, res) => {
 
         const result = await prisma.$transaction(async (tx) => {
             const user = await tx.user.findUnique({
-                where: { id: req.session.userId }
+                where: { id: req?.user?.id }
             });
 
             if (!user) {
@@ -326,8 +326,9 @@ export const addProject = async (req, res) => {
 
 export const getUserProjects = async (req, res) => {
     try {
+        console.log("req.user", req.user);
         const projects = await prisma.project.findMany({
-            where: { user_id: req.session.userId },
+            where: { user_id: req?.user?.id },
             orderBy: { created_at: 'desc' },
             include: {
                 webDevelopmentDetail: {

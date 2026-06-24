@@ -8,6 +8,8 @@ export const verifyUser = asyncHandler(async (req, res, next) => {
   console.log("started call")
   const token = req.cookies?.accessToken;
 
+  console.log("token", token);
+
   if (!token) throw ApiError.unauthorized("Unauthorized");
 
   const decoded = verifyAccessToken(token);

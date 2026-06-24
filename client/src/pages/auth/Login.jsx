@@ -21,7 +21,7 @@ const LoginModal = () => {
         const result = await login(formData)
 
         if (result) {
-            router.push(`/dashboard/${role?.toLowerCase() || 'notfound'}`)
+            router.push(`/${role?.toLowerCase()}/dashboard`)
         }
     };
 

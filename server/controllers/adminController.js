@@ -144,7 +144,7 @@ export const updateProjectStatus = async (req, res) => {
                 project_id: id,
                 old_status: currentProject.status,
                 new_status: status,
-                changed_by: req.session.adminName || "Admin",
+                changed_by: req?.user?.full_name || "Admin",
                 notes: `Status changed from ${currentProject.status} to ${status}`,
             },
         });
