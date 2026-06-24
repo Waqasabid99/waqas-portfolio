@@ -39,8 +39,8 @@ export const getPortfolioProjects = async () => {
     const response = await apiRequest({
         url: "/portfolio-projects",
         method: "GET",
-        withCredentials: true,
-        cache: "no-store"
+        withCredentials: false,
+        tags: ["portfolio-projects"]
     });
 
     if (!response.success) {

@@ -12,10 +12,6 @@ const Portfolio = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        fetchPortfolioProjects();
-    }, []);
-
     const fetchPortfolioProjects = async () => {
         try {
             setLoading(true);
@@ -35,6 +31,10 @@ const Portfolio = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        fetchPortfolioProjects();
+    }, []);
 
     // Generate categories dynamically from fetched projects
     const categories = [

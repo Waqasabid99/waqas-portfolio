@@ -1,6 +1,7 @@
 "use server";
 
 import { apiRequest } from "@/api/apiHandler";
+import { revalidateTag } from "next/cache";
 
 export const getAdminStats = async () => {
     const response = await apiRequest({
@@ -77,6 +78,7 @@ export const updateAdminPortfolioProject = async (id, payload) => {
         return response
     }
 
+    revalidateTag("portfolio-projects")
     return response || [];
 };
 
@@ -108,6 +110,7 @@ export const createAdminPortfolioProject = async (payload) => {
         return response
     }
 
+    revalidateTag("portfolio-projects")
     return response || [];
 };
 
@@ -124,6 +127,7 @@ export const createAdminProject = async (payload) => {
         return response
     }
 
+    revalidateTag("portfolio-projects")
     return response || [];
 };
 
@@ -140,6 +144,7 @@ export const updateAdminProject = async (payload) => {
         return response
     }
 
+    revalidateTag("portfolio-projects")
     return response || [];
 };
 
@@ -155,6 +160,7 @@ export const deleteAdminProject = async (projectId) => {
         return response
     }
 
+    revalidateTag("portfolio-projects")
     return response || [];
 };
 
@@ -170,6 +176,7 @@ export const deleteAdminPortfolioProject = async (projectId) => {
         return response
     }
 
+    revalidateTag("portfolio-projects")
     return response || [];
 };
 
@@ -186,5 +193,6 @@ export const updateProjectStatus = async (projectId, payload) => {
         return response
     }
 
+    revalidateTag("portfolio-projects")
     return response || [];
 };
