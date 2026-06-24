@@ -1,17 +1,18 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import session from "express-session";
+import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
+const PORT = process.env.PORT || 5000;
 
 const app = express();
-const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
   origin: process.env.ORIGIN || "http://localhost:3000",
@@ -19,19 +20,6 @@ app.use(cors({
 }));
 
 app.set("trust proxy", 1);
-
-app.use(session({
-  key: process.env.KEY,
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    sameSite: "None",
-    maxAge: 24 * 60 * 60 * 1000,
-  },
-}));
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend server is running!" });
@@ -53,6 +41,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: "An unexpected error occurred" });
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
