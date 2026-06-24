@@ -6,6 +6,7 @@ import ClientHireForm from './ClientHireForm';
 import api from '@/api/api';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
+import axios from 'axios';
 
 const ClientDashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -22,7 +23,9 @@ const ClientDashboard = () => {
   const fetchUserProjects = async () => {
     console.log('fetchUserProjects: Attempting to fetch user projects...');
     try {
-      const response = await api.get('/user-projects');
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-projects`, {
+        withCredentials: true,
+      });
 
       const data = response.data;
       console.log('fetchUserProjects: Response from /user-projects:', data);
