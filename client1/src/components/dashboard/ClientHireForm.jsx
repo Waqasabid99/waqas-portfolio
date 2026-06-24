@@ -482,14 +482,6 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
 
   return (
     <div className="w-full px-6 md:px-20 py-10 bg-gray-50">
-      <SEO
-        title={"Add New Project | Waqas Ali Abid | Portfolio"}
-        description={"Add New Project | Waqas Ali Abid | Portfolio"}
-        keywords={"Waqas Ali Abid, Add New Project, Waqas, Ali, Abid"}
-        image={""}
-        url={""}
-        type={"website"}
-      />
       <div className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md border border-gray-100">
         <div className='flex justify-between items-start'>
           <h2 className="text-2xl font-bold text-blue-600 mb-6">Add New Project</h2>

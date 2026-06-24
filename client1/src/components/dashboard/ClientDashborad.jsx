@@ -264,14 +264,6 @@ const ClientDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9fb]">
-      <SEO
-        title={"Dashboard | Waqas Ali Abid | Portfolio"}
-        description={"Dashboard | Waqas Ali Abid | Portfolio"}
-        keywords={"Waqas Ali Abid, Dashboard, Waqas, Ali, Abid"}
-        image={""}
-        url={""}
-        type={"website"}
-      />
       <ClientNavbar onLogout={handleLogout} user={user} />
 
       <div className="w-full px-6 md:px-20 py-12 text-[#333]">

@@ -46,11 +46,6 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f8f9fb] px-4">
-      <SEO
-        title="Admin Login"
-        description="Admin Login"
-        keywords="Admin Login"
-      />
       <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-lg border border-gray-100">
         <h2 className="text-2xl font-bold text-[#1365ff] mb-6 text-center">Admin Login</h2>
 

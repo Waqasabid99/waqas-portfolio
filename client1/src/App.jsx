@@ -146,14 +146,6 @@ const App = () => {
 
   return (
     <>
-      <SEO
-        title={"Waqas Ali Abid || Portfolio"}
-        description={"Portfolio of Waqas Ali Abid"}
-        keywords={"Waqas Ali Abid, Portfolio"}
-        image={''}
-        url={''}
-        type={'website'}
-      />
       {/* <h1>{apiData}</h1> */}
       {!showHireForm && !showContactForm && (
         <>

@@ -27,14 +27,6 @@ const SignupModal = ({ onLoginClick }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4">
-      <SEO
-        title={"Register | Waqas Ali Abid | Portfolio"}
-        description={"Register to Waqas Ali Abid | Portfolio"}
-        keywords={"Waqas Ali Abid, Register, Waqas, Ali, Abid"}
-        image={""}
-        url={""}
-        type={"website"}
-      />
       <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-8 relative">
         <Link
           to='/'

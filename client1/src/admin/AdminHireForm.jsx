@@ -579,14 +579,6 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <SEO
-        title={"Waqas Ali Abid | Portfolio"}
-        description={"Waqas Ali Abid | Portfolio"}
-        keywords={"Waqas Ali Abid, Waqas, Ali, Abid"}
-        image={"/og-image.jpg"}
-        url={"/portfolio"}
-        type={"website"}
-      />
       <div className="bg-white rounded-xl max-w-6xl max-h-[90vh] overflow-y-auto w-full">
         <div className="p-6 border-b border-gray-200">
           <div className="flex justify-between items-center">

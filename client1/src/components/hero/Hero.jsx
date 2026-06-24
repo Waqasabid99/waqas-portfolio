@@ -6,14 +6,6 @@ import HireForm from './HireForm';
 function Hero(props) {
   return (
     <div id='home' className="mt-20 px-5 md:px-10 lg:px-20 flex flex-col md:flex-row items-center md:items-start gap-10">
-      <SEO
-        title={"Waqas Ali Abid | Portfolio"}
-        description={"/ Waqas Ali Abid | Portfolio"}
-        keywords={"Waqas Ali Abid, Waqas, Ali, Abid"}
-        image={""}
-        url={""}
-        type={"website"}
-      />
       <div className="w-full md:w-1/2">
         <div className="relative mb-4">
           {/*           <div className="absolute w-3 h-2 bg-[#1365ff] top-6 left-[-6px]"></div>
