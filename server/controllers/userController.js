@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from "../generated/prisma/enums.js";
+import { UserRole, UserStatus } from "../generated/prisma/enums.ts";
 import { apiResponse, asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/error.js";
 import { clearAuthCookies, comparePassword, generateAccessToken, generatePasswordResetToken, generateRefreshToken, getSafeUser, hashPassword, JWT_REFRESH_EXPIRES_IN, setAuthCookies, verifyPasswordResetToken } from "../utils/helpers.js";
