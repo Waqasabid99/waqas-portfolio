@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 
 const LoginModal = () => {
-    const { isLoading, login } = useAuthStore();
+    const { isLoading, login, role } = useAuthStore();
     const [formData, setFormData] = useState({ email: '', password: '' });
 
     const handleChange = (e) => {
@@ -20,8 +20,8 @@ const LoginModal = () => {
         e.preventDefault();
         const result = await login(formData)
 
-        if (result?.success) {
-            router.push('/')
+        if (result) {
+            router.push(`/dashboard/${role?.toLowerCase() || 'notfound'}`)
         }
     };
 

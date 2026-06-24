@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { NAVLINKS } from '@/constants/constant';
+import { useAuthStore } from '@/store/authStore';
 
-function Navbar(props) {
+function Navbar() {
+    const { isAuthenticated, logout, user } = useAuthStore();
     const [menuOpen, setMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
+    const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -18,6 +22,17 @@ function Navbar(props) {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const handleDocumentClick = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setProfileMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleDocumentClick);
+        return () => document.removeEventListener('click', handleDocumentClick);
     }, []);
 
     return (
@@ -35,12 +50,33 @@ function Navbar(props) {
                         ))}
                     </ul>
                     <div className='flex gap-4'>
-                        <button onClick={props.onWhatsClick} className="ml-6 rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition">
+                        <button onClick={() => window.open('https://wa.me/+923208703508', '_blank')} className="ml-6 rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition">
                             Contact me
                         </button>
-                        <Link href='/login' className="rounded-full px-5 py-2 bg-white text-[#1365ff] border border-[#1365ff] hover:bg-[#1365ff] hover:text-white transition">
-                            Login
-                        </Link>
+
+                        {isAuthenticated ? (
+                            <div className='relative' ref={dropdownRef}>
+                                <button onClick={() => setProfileMenuOpen(!profileMenuOpen)} className="rounded-full px-3.5 py-2.5 bg-white text-[#1365ff] border border-[#1365ff] hover:bg-[#1365ff] hover:text-white transition">
+                                    {user?.full_name?.slice(0, 1).toUpperCase()}
+                                </button>
+                                {profileMenuOpen && (
+                                    <div className='absolute top-12 right-0 bg-white rounded shadow-lg py-4 px-6 text-sm text-[#6e7b8d]'>
+                                        <ul className='flex justify-start items-start font-bold flex-col gap-4'>
+                                            <Link href={`/${user?.role?.toLowerCase()?.trim()}/dashboard`} className="hover:text-[#1365ff]">
+                                                Dashboard
+                                            </Link>
+                                            <button onClick={logout} className="hover:text-[#1365ff]">
+                                                Logout
+                                            </button>
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <Link href='/login' className="rounded-full px-5 py-2 bg-white text-[#1365ff] border border-[#1365ff] hover:bg-[#1365ff] hover:text-white transition">
+                                Login
+                            </Link>
+                        )}
                     </div>
                 </nav>
 
@@ -62,9 +98,25 @@ function Navbar(props) {
                             </Link>
                         ))}
                     </ul>
-                    <button onClick={props.onWhatsClick} className="mt-4 w-full rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition">
-                        Contact me
-                    </button>
+                    {isAuthenticated ? (
+                        <>
+                            <Link href={`/${user?.role?.toLowerCase()?.trim()}/dashboard`} className="mt-4 w-full rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition block text-center">
+                                Dashboard
+                            </Link>
+                            <button onClick={logout} className="mt-4 w-full rounded-full px-5 py-2 bg-white text-[#1365ff] border border-[#1365ff] hover:bg-[#1365ff] hover:text-white transition">
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button onClick={() => window.open('https://wa.me/+923208703508', '_blank')} className="mt-4 w-full rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition">
+                                Contact me
+                            </button>
+                            <Link href='/login' className="mt-4 w-full rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition">
+                                Login
+                            </Link>
+                        </>
+                    )}
                 </div>
             )}
         </header>
