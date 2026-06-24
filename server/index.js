@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
@@ -11,9 +10,8 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors({
   origin: process.env.ORIGIN || "http://localhost:3000",
   credentials: true,

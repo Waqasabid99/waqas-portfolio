@@ -6,6 +6,39 @@ import prisma from "../config/prisma.js";
 import ms from "ms";
 
 export const registerUser = asyncHandler(async (req, res) => {
+    console.log("started call")
+    const { full_name, email, password } = req.body;
+
+    // Validate required fields
+    if (!full_name || !email || !password) throw ApiError.badRequest("Name, email and password are required");
+
+    if (password.length < 8) throw ApiError.badRequest("Password must be at least 8 characters long");
+
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+
+    if (existingUser) throw ApiError.conflict("User already exists with this email");
+
+    // Hash password
+    const passwordHash = await hashPassword(password);
+
+    // Create user
+    const user = await prisma.user.create({
+        data: {
+            full_name,
+            email,
+            password: passwordHash,
+            role: UserRole.USER,
+            status: UserStatus.ACTIVE,
+        },
+    });
+
+    const safeUser = getSafeUser(user);
+
+    return apiResponse(res, 201, true, "User registered successfully.", { user: safeUser });
+});
+
+export const registerAdmin = asyncHandler(async (req, res) => {
     const loggedInUser = req.user;
     const { full_name, email, password, role, status } = req.body;
 

@@ -5,6 +5,7 @@ import { ApiError } from "../utils/error.js";
 import { getSafeUser, verifyAccessToken } from "../utils/helpers.js";
 
 export const verifyUser = asyncHandler(async (req, res, next) => {
+  console.log("started call")
   const token = req.cookies?.accessToken;
 
   if (!token) throw ApiError.unauthorized("Unauthorized");
@@ -14,33 +15,20 @@ export const verifyUser = asyncHandler(async (req, res, next) => {
   const user = await prisma.user.findFirst({
     where: {
       id: decoded.id,
-      status: UserStatus.ACTIVE,
     }
-  })
+  });
 
   if (!user) throw ApiError.unauthorized("Invalid or expired session");
+  if (user.status === UserStatus.INACTIVE) throw ApiError.unauthorized("Your account has been deactivated");
   const safeUser = getSafeUser(user);
   req.user = safeUser;
   next();
 });
 
-export const isAdminAuthenticated = asyncHandler(async (req, res, next) => {
-  const token = req.cookies?.accessToken;
-
-  if (!token) throw ApiError.unauthorized("Unauthorized");
-
-  const decoded = verifyAccessToken(token);
-
-  const user = await prisma.user.findFirst({
-    where: {
-      id: decoded.id,
-      status: UserStatus.ACTIVE,
-      role: UserRole.ADMIN
-    }
-  })
-
-  if (!user) throw ApiError.unauthorized("Invalid or expired session");
-  const safeUser = getSafeUser(user);
-  req.user = safeUser;
+export const isAdminAuthenticated = (req, res, next) => {
+  console.log(req.user);
+  if (req.user?.role !== UserRole.ADMIN) {
+    throw ApiError.unauthorized("You are not authorized to access this resource")
+  }
   next();
-});
+}
