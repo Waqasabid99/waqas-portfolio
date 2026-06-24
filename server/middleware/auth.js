@@ -1,15 +1,25 @@
-export const isAuthenticated = (req, res, next) => {
-  if (req.session.userId) {
-    next();
-  } else {
-    res.status(401).json({ success: false, message: "Unauthorized" });
-  }
-};
+import prisma from "../config/prisma.js";
+import { UserStatus } from "../generated/prisma/enums.ts";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/error.js";
+import { getSafeUser, verifyAccessToken } from "../utils/helpers.js";
 
-export const isAdminAuthenticated = (req, res, next) => {
-  if (req.session.adminId) {
-    next();
-  } else {
-    res.status(401).json({ success: false, message: "Admin authentication required" });
-  }
-};
+export const verifyUser = asyncHandler(async (req, res, next) => {
+  const token = req.cookies?.accessToken;
+
+  if (!token) throw ApiError.unauthorized("Unauthorized");
+
+  const decoded = verifyAccessToken(token);
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: decoded.id,
+      status: UserStatus.ACTIVE,
+    }
+  })
+
+  if (!user) throw ApiError.unauthorized("Invalid or expired session");
+  const safeUser = getSafeUser(user);
+  req.user = safeUser;
+  next();
+});

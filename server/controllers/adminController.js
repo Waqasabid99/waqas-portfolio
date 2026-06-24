@@ -1,116 +1,6 @@
 import prisma from "../config/prisma.js";
-import { hashPassword, verifyPassword } from "../utils/auth.js";
+import { hashPassword } from "../utils/auth.js";
 import getFeaturePrice from "../utils/priceCalculator.js";
-
-// ─────────────────────────────────────────────
-// AUTH
-// ─────────────────────────────────────────────
-
-export const registerAdmin = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
-
-        if (!name || !email || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "All fields are required",
-            });
-        }
-
-        const existingAdmin = await prisma.admin.findUnique({ where: { email } });
-
-        if (existingAdmin) {
-            return res.status(400).json({
-                success: false,
-                message: "Admin email already registered",
-            });
-        }
-
-        const hashedPassword = await hashPassword(password);
-
-        const admin = await prisma.admin.create({
-            data: { name, email, password: hashedPassword, role: "admin" },
-        });
-
-        req.session.adminId = admin.id;
-        req.session.adminEmail = admin.email;
-        req.session.adminName = admin.name;
-        req.session.adminRole = admin.role;
-
-        return res.status(201).json({
-            success: true,
-            message: "Admin account created successfully",
-            admin: { id: admin.id, name: admin.name, email: admin.email, role: admin.role },
-        });
-    } catch (error) {
-        console.error("Admin registration error:", error);
-        return res.status(500).json({ success: false, message: "Server error occurred" });
-    }
-};
-
-export const loginAdmin = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        if (!email || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "Email and password are required",
-            });
-        }
-
-        const admin = await prisma.admin.findUnique({ where: { email } });
-
-        if (!admin) {
-            return res.status(400).json({ success: false, message: "Invalid email or password" });
-        }
-
-        const isValidPassword = await verifyPassword(password, admin.password);
-
-        if (!isValidPassword) {
-            return res.status(400).json({ success: false, message: "Invalid email or password" });
-        }
-
-        req.session.adminId = admin.id;
-        req.session.adminEmail = admin.email;
-        req.session.adminName = admin.name;
-        req.session.adminRole = admin.role;
-
-        return res.status(200).json({
-            success: true,
-            message: "Admin login successful",
-            admin: { id: admin.id, name: admin.name, email: admin.email, role: admin.role },
-        });
-    } catch (error) {
-        console.error("Admin login error:", error);
-        return res.status(500).json({ success: false, message: "Server error occurred" });
-    }
-};
-
-export const logoutAdmin = (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: "Could not log out" });
-        }
-        return res.json({ success: true, message: "Admin logged out successfully" });
-    });
-};
-
-export const checkAdminSession = (req, res) => {
-    if (req.session.adminId) {
-        return res.json({
-            success: true,
-            isAuthenticated: true,
-            admin: {
-                id: req.session.adminId,
-                email: req.session.adminEmail,
-                name: req.session.adminName,
-                role: req.session.adminRole,
-            },
-        });
-    }
-    return res.json({ success: false, isAuthenticated: false });
-};
 
 // ─────────────────────────────────────────────
 // PROJECTS — helpers
@@ -320,7 +210,7 @@ export const createProject = async (req, res) => {
         if (!user) {
             const hashedPassword = await hashPassword(password);
             user = await prisma.user.create({
-                data: { full_name: username, email, password: hashedPassword },
+                data: { full_name: username, email, password: hashedPassword, role: "USER", status: "ACTIVE" },
             });
         }
 

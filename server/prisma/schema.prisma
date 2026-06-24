@@ -7,34 +7,64 @@ datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 // ─────────────────────────────────────────────
 // AUTH
 // ─────────────────────────────────────────────
 
 model User {
-  id         Int      @id @default(autoincrement())
-  full_name  String
-  email      String   @unique
-  password   String
+  id                  String    @id @default(uuid())
+  full_name           String
+  email               String    @unique
+  password            String
+  passwordResetToken  String?   @unique
+  passwordResetExpiry DateTime?
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  projects     Project[]
-  contactForms ContactForm[]
+  role   UserRole   @default(USER)
+  status UserStatus @default(INACTIVE)
+
+  projects      Project[]
+  contactForms  ContactForm[]
+  refreshTokens RefreshToken[]
+  blogs         Blog[]
 
   @@map("users")
 }
 
-model Admin {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  password   String
-  role       String   @default("admin")
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+model RefreshToken {
+  id        String @id @default(cuid())
+  tokenHash String @unique
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
 
-  @@map("admins")
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+
+  ipHash    String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 // ─────────────────────────────────────────────
@@ -42,12 +72,12 @@ model Admin {
 // ─────────────────────────────────────────────
 
 model ContactForm {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(uuid())
   name       String
   email      String
   subject    String
   message    String
-  user_id    Int?
+  user_id    String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -61,7 +91,7 @@ model ContactForm {
 // ─────────────────────────────────────────────
 
 model PortfolioProject {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(uuid())
   title        String
   category     String
   image        String
@@ -82,7 +112,7 @@ model PortfolioProject {
 // ─────────────────────────────────────────────
 
 model Project {
-  id            Int      @id @default(autoincrement())
+  id            String   @id @default(uuid())
   username      String
   email         String
   password      String
@@ -92,7 +122,7 @@ model Project {
   price         Float    @default(0)
   deadline      String?
   details       String?
-  user_id       Int
+  user_id       String
   status        String   @default("pending")
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
@@ -110,8 +140,8 @@ model Project {
 }
 
 model ProjectStatusHistory {
-  id         Int      @id @default(autoincrement())
-  project_id Int
+  id         String   @id @default(uuid())
+  project_id String
   old_status String
   new_status String
   changed_by String
@@ -129,8 +159,8 @@ model ProjectStatusHistory {
 // ─────────────────────────────────────────────
 
 model WebDevelopmentDetail {
-  id         Int      @id @default(autoincrement())
-  project_id Int      @unique
+  id         String   @id @default(uuid())
+  project_id String   @unique
   tech       String   @default("")
   web_pages  Int      @default(0)
   created_at DateTime @default(now())
@@ -143,8 +173,8 @@ model WebDevelopmentDetail {
 }
 
 model WebDevelopmentFeature {
-  id                Int      @id @default(autoincrement())
-  web_dev_detail_id Int
+  id                String   @id @default(uuid())
+  web_dev_detail_id String
   feature           String
   price             Float    @default(0)
   created_at        DateTime @default(now())
@@ -160,8 +190,8 @@ model WebDevelopmentFeature {
 // ─────────────────────────────────────────────
 
 model SeoDetail {
-  id         Int      @id @default(autoincrement())
-  project_id Int      @unique
+  id         String   @id @default(uuid())
+  project_id String   @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -172,8 +202,8 @@ model SeoDetail {
 }
 
 model SeoType {
-  id            Int      @id @default(autoincrement())
-  seo_detail_id Int
+  id            String   @id @default(uuid())
+  seo_detail_id String
   seo_type      String
   price         Float    @default(0)
   created_at    DateTime @default(now())
@@ -189,8 +219,8 @@ model SeoType {
 // ─────────────────────────────────────────────
 
 model DigitalMarketingDetail {
-  id               Int      @id @default(autoincrement())
-  project_id       Int      @unique
+  id               String   @id @default(uuid())
+  project_id       String   @unique
   target_audience  String?
   marketing_budget Float?
   duration         String?
@@ -205,8 +235,8 @@ model DigitalMarketingDetail {
 }
 
 model DigitalMarketingService {
-  id                          Int      @id @default(autoincrement())
-  digital_marketing_detail_id Int
+  id                          String   @id @default(uuid())
+  digital_marketing_detail_id String
   service                     String
   price                       Float    @default(0)
   created_at                  DateTime @default(now())
@@ -218,8 +248,8 @@ model DigitalMarketingService {
 }
 
 model SocialPlatform {
-  id                          Int      @id @default(autoincrement())
-  digital_marketing_detail_id Int
+  id                          String   @id @default(uuid())
+  digital_marketing_detail_id String
   platform                    String
   price                       Float    @default(0)
   created_at                  DateTime @default(now())
@@ -235,8 +265,8 @@ model SocialPlatform {
 // ─────────────────────────────────────────────
 
 model ContentGenerationDetail {
-  id              Int      @id @default(autoincrement())
-  project_id      Int      @unique
+  id              String   @id @default(uuid())
+  project_id      String   @unique
   volume          String?
   content_tone    String?
   target_keywords String?
@@ -251,8 +281,8 @@ model ContentGenerationDetail {
 }
 
 model ContentType {
-  id                           Int      @id @default(autoincrement())
-  content_generation_detail_id Int
+  id                           String   @id @default(uuid())
+  content_generation_detail_id String
   content_type                 String
   price                        Float    @default(0)
   created_at                   DateTime @default(now())
@@ -264,8 +294,8 @@ model ContentType {
 }
 
 model ContentLanguage {
-  id                           Int      @id @default(autoincrement())
-  content_generation_detail_id Int
+  id                           String   @id @default(uuid())
+  content_generation_detail_id String
   language                     String
   price                        Float    @default(0)
   created_at                   DateTime @default(now())
@@ -281,8 +311,8 @@ model ContentLanguage {
 // ─────────────────────────────────────────────
 
 model AppDevelopmentDetail {
-  id               Int      @id @default(autoincrement())
-  project_id       Int      @unique
+  id               String   @id @default(uuid())
+  project_id       String   @unique
   app_type         String?
   complexity       String?
   target_platforms String?
@@ -297,8 +327,8 @@ model AppDevelopmentDetail {
 }
 
 model AppFeature {
-  id                        Int      @id @default(autoincrement())
-  app_development_detail_id Int
+  id                        String   @id @default(uuid())
+  app_development_detail_id String
   feature                   String
   price                     Float    @default(0)
   created_at                DateTime @default(now())
@@ -307,4 +337,65 @@ model AppFeature {
   appDevelopmentDetail AppDevelopmentDetail @relation(fields: [app_development_detail_id], references: [id], onDelete: Cascade)
 
   @@map("app_features")
+}
+
+// ─────────────────────────────────────────────
+// BLOG SYSTEM
+// ─────────────────────────────────────────────
+
+model Blog {
+  id String @id @default(uuid())
+
+  title String
+  slug  String @unique
+
+  excerpt      String
+  content      Json
+  cover_image  String?
+  status       BlogStatus    @default(DRAFT)
+  featured     Boolean       @default(false)
+  views        Int           @default(0)
+  reading_time Int?
+  author_id    String?
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  published_at DateTime?
+  author       User?         @relation(fields: [author_id], references: [id])
+  category_id  String?
+  category     BlogCategory? @relation(fields: [category_id], references: [id])
+  tags         BlogTag[]
+  seo          BlogSEO?
+
+  @@map("blogs")
+}
+
+model BlogCategory {
+  id         String   @id @default(uuid())
+  name       String
+  slug       String   @unique
+  blogs      Blog[]
+  created_at DateTime @default(now())
+
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id    String @id @default(uuid())
+  name  String
+  slug  String @unique
+  blogs Blog[]
+
+  @@map("blog_tags")
+}
+
+model BlogSEO {
+  id               String  @id @default(uuid())
+  blog_id          String  @unique
+  meta_title       String?
+  meta_description String?
+  keywords         String?
+  og_image         String?
+  blog             Blog    @relation(fields: [blog_id], references: [id], onDelete: Cascade)
+
+  @@map("blog_seo")
 }
