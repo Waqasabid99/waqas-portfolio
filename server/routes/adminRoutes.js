@@ -1,10 +1,6 @@
 import express from "express";
 import { isAdminAuthenticated } from "../middleware/auth.js";
 import {
-  registerAdmin,
-  loginAdmin,
-  logoutAdmin,
-  checkAdminSession,
   getAllProjects,
   getProjectById,
   updateProjectStatus,
@@ -14,12 +10,6 @@ import {
 } from "../controllers/adminController.js";
 
 const adminRouter = express.Router();
-
-// Auth
-adminRouter.post("/admin/register", registerAdmin);
-adminRouter.post("/admin/login", loginAdmin);
-adminRouter.post("/admin/logout", logoutAdmin);
-adminRouter.get("/admin/check-session", checkAdminSession);
 
 // Stats
 adminRouter.get("/admin/stats", isAdminAuthenticated, getAdminStats);
