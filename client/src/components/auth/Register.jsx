@@ -4,36 +4,25 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../api/api';
 import SEO from '../../hooks/SEO';
+import useAuthStore from '../../store/authStore';
 
 const SignupModal = ({ onLoginClick }) => {
+  const { isLoading, register } = useAuthStore();
   const [formData, setFormData] = useState({ full_name: '', email: '', password: '' });
-  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value, }))
   };
 
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    console.log('Signup Data:', formData);
-    api.post('/register', formData).then((response) => {
-      if (response.data.success === true) {
-        setIsLoading(false);
-        toast.success(response.data.message)
-        setTimeout(() => {
-          navigate('../dashboard')
-        }, 2000);
-      } else {
-        setIsLoading(false);
-        toast.error(response.data.message)
-      }
-    })
-      .catch((error) => {
-        setIsLoading(false);
-        toast.error(error.response?.data?.message || 'Registration failed');
-      });
+    const result = await register(formData)
+
+    if (result?.success) {
+      navigate('/login')
+    }
   };
 
   return (

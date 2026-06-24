@@ -4,37 +4,25 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../api/api';
 import SEO from '../../hooks/SEO';
+import useAuthStore from '../../store/authStore';
 
 
 const LoginModal = () => {
+  const { isLoading, login } = useAuthStore();
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const navigate = useNavigate()
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    api.post('/login', formData)
-      .then((response) => {
-        if (response.data.success === true) {
-          setIsLoading(false);
-          toast.success(response.data.message)
-          setTimeout(() => {
-            navigate('../dashboard')
-          }, 2000);
-        } else {
-          setIsLoading(false);
-          toast.error(response.data.message || "Please Check your email and password")
-        }
-      }).catch((error) => {
-        setIsLoading(false);
-        toast.error(error.response?.data?.message || 'Login failed');
-      })
-    console.log('Logging in with:', formData);
+    const result = await login(formData)
+
+    if (result?.success) {
+      navigate('../dashboard')
+    }
   };
 
   return (
