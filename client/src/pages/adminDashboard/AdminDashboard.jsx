@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Users, FolderOpen, Settings, LogOut, Bell, DollarSign, Eye, Edit, Trash2, Plus, Filter, Download, X, CheckCircle, Clock, AlertCircle, Image, Star, Globe } from 'lucide-react';
+import { Users, FolderOpen, DollarSign, Eye, Edit, Trash2, Plus, Filter, Download, X, CheckCircle, Clock, AlertCircle, Image, Star, Globe } from 'lucide-react';
 import AdminHireForm from './AdminHireForm';
 import AdminPortfolioForm from './AdminPortfolioForm';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
-import api from '@/api/api';
+import { deleteAdminPortfolioProject, deleteAdminProject, getAdminPortfolioProjects, getAdminPortfolioStats, getAdminProjects, getAdminStats, getSingleProject, updateProjectStatus } from '@/actions/admin.action';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -51,32 +51,32 @@ const AdminDashboard = () => {
 
       // Fetch both stats and projects
       const [statsResponse, projectsResponse, portfolioResponse, portfolioStatsResponse] = await Promise.all([
-        api.get(`/admin/stats`),
-        api.get(`/admin/projects`),
-        api.get(`/admin/portfolio-projects`),
-        api.get(`/admin/portfolio-stats`)
+        getAdminStats(),
+        getAdminProjects(),
+        getAdminPortfolioProjects(),
+        getAdminPortfolioStats()
       ]);
 
-      if (statsResponse.data.success) {
-        setStats(statsResponse.data.stats);
+      if (statsResponse.success) {
+        setStats(statsResponse.stats);
       }
 
-      if (projectsResponse.data.success) {
-        setProjects(projectsResponse.data.projects);
+      if (projectsResponse.success) {
+        setProjects(projectsResponse.projects);
       }
 
-      if (portfolioResponse.data.success) {
-        setPortfolioProjects(portfolioResponse.data.projects);
+      if (portfolioResponse.success) {
+        setPortfolioProjects(portfolioResponse.projects);
       }
 
-      if (portfolioStatsResponse.data.success) {
-        setPortfolioStats(portfolioStatsResponse.data.stats);
+      if (portfolioStatsResponse.success) {
+        setPortfolioStats(portfolioStatsResponse.stats);
       }
 
       setLoading(false);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
-      setError(err.response?.data?.message || 'Failed to fetch dashboard data');
+      setError(err.message || 'Failed to fetch dashboard data');
       setLoading(false);
     }
   };
@@ -90,9 +90,9 @@ const AdminDashboard = () => {
     if (window.confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
       try {
         setUpdating(true);
-        const response = await api.delete(`/admin/projects/${projectId}`);
+        const response = await deleteAdminProject(projectId);
 
-        if (response.data.success) {
+        if (response.success) {
           setProjects(projects.filter(p => p.id !== projectId));
           alert('Project deleted successfully!');
           // Refresh stats after deletion
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
         }
       } catch (error) {
         console.error('Delete project error:', error);
-        alert(error.response?.data?.message || 'Failed to delete project');
+        alert(error.message || 'Failed to delete project');
       } finally {
         setUpdating(false);
       }
@@ -111,9 +111,9 @@ const AdminDashboard = () => {
     if (window.confirm('Are you sure you want to delete this portfolio project? This action cannot be undone.')) {
       try {
         setUpdating(true);
-        const response = await api.delete(`/admin/portfolio-projects/${projectId}`);
+        const response = await deleteAdminPortfolioProject(projectId);
 
-        if (response.data.success) {
+        if (response.success) {
           setPortfolioProjects(portfolioProjects.filter(p => p.id !== projectId));
           alert('Portfolio project deleted successfully!');
           // Refresh stats after deletion
@@ -121,7 +121,7 @@ const AdminDashboard = () => {
         }
       } catch (error) {
         console.error('Delete portfolio project error:', error);
-        alert(error.response?.data?.message || 'Failed to delete portfolio project');
+        alert(error.message || 'Failed to delete portfolio project');
       } finally {
         setUpdating(false);
       }
@@ -131,11 +131,9 @@ const AdminDashboard = () => {
   const handleStatusChange = async (projectId, newStatus) => {
     try {
       setUpdating(true);
-      const response = await api.put(`/admin/projects/${projectId}/status`, {
-        status: newStatus
-      });
+      const response = await updateProjectStatus(projectId, { status: newStatus });
 
-      if (response.data.success) {
+      if (response.success) {
         setProjects(projects.map(p =>
           p.id === projectId ? { ...p, status: newStatus } : p
         ));
@@ -147,7 +145,7 @@ const AdminDashboard = () => {
       }
     } catch (error) {
       console.error('Status update error:', error);
-      alert(error.response?.data?.message || 'Failed to update project status');
+      alert(error.message || 'Failed to update project status');
     } finally {
       setUpdating(false);
     }
@@ -155,9 +153,9 @@ const AdminDashboard = () => {
 
   const handleViewProject = async (projectId) => {
     try {
-      const response = await api.get(`/admin/projects/${projectId}`);
-      if (response.data.success) {
-        setSelectedProject(response.data.project);
+      const response = await getSingleProject(projectId);
+      if (response.success) {
+        setSelectedProject(response.project);
         setShowProjectDetails(true);
       }
     } catch (error) {
@@ -381,33 +379,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-[#1365ff]">Admin Dashboard</h1>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <button className="p-2 text-gray-400 hover:text-gray-500">
-                <Bell className="w-6 h-6" />
-              </button>
-              <button className="p-2 text-gray-400 hover:text-gray-500">
-                <Settings className="w-6 h-6" />
-              </button>
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-              >
-                <LogOut className="w-4 h-4" />
-                <span>Logout</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}

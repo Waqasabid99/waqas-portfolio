@@ -91,7 +91,7 @@ export const getAllProjects = async (req, res) => {
 
 export const getProjectById = async (req, res) => {
     try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
 
         const project = await prisma.project.findUnique({
             where: { id },
@@ -113,7 +113,7 @@ export const getProjectById = async (req, res) => {
 
 export const updateProjectStatus = async (req, res) => {
     try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const { status } = req.body;
 
         if (!status) {
@@ -162,7 +162,7 @@ export const updateProjectStatus = async (req, res) => {
 
 export const deleteProject = async (req, res) => {
     try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
 
         const project = await prisma.project.findUnique({
             where: { id },

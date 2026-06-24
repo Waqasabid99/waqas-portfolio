@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { FaArrowCircleRight, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { BiCode, BiTrendingUp } from 'react-icons/bi';
 import { FiEye } from 'react-icons/fi';
-import api from '@/api/api';
+import { getPortfolioProjects } from '@/actions/project.action';
 
 const Portfolio = () => {
     const [activeFilter, setActiveFilter] = useState('all');
@@ -21,10 +21,10 @@ const Portfolio = () => {
             setLoading(true);
             setError(null);
 
-            const response = await api.get(`/portfolio-projects`);
+            const response = await getPortfolioProjects();
 
-            if (response.data.success) {
-                setProjects(response.data.projects);
+            if (response.success) {
+                setProjects(response.projects);
             } else {
                 setError('Failed to fetch portfolio projects');
             }

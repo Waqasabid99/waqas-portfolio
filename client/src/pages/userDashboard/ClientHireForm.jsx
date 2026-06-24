@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import api from '@/api/api';
+import { createProject } from '@/actions/project.action';
 
 const Select = ({ options, value, onChange, placeholder, isMulti = false }) => {
   const handleChange = (e) => {
@@ -402,22 +402,16 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
 
       console.log('Submitting payload:', payload);
 
-      const response = await api.post(`/add-project`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-        timeout: 10000
-      });
+      const response = await createProject(payload);
 
-      console.log('Response:', response.data);
+      console.log('Response:', response);
 
-      if (response.data.success) {
+      if (response.success) {
         setSuccess('Project added successfully!');
 
         // Call the callback to notify parent component
         if (onProjectAdded) {
-          onProjectAdded(response.data.project);
+          onProjectAdded(response.project);
         }
 
         // Reset form after successful submission

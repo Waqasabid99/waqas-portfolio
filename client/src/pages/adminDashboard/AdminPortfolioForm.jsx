@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { X, Plus, Save, Star, Tag, FileText, Link, Eye } from 'lucide-react';
 import axios from 'axios';
+import { createAdminPortfolioProject, updateAdminPortfolioProject } from '@/actions/admin.action';
 
 const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) => {
   const [formData, setFormData] = useState({
@@ -126,27 +127,16 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
     setLoading(true);
 
     try {
-      const url = editProject
-        ? `${API_BASE_URL}/admin/portfolio-projects/${editProject.id}`
-        : `${API_BASE_URL}/admin/portfolio-projects`;
+      const response = await editProject ? updateAdminPortfolioProject(editProject.id, formData) : createAdminPortfolioProject(formData);
 
-      const method = editProject ? 'PUT' : 'POST';
-
-      const response = await axios({
-        method,
-        url,
-        data: formData,
-        withCredentials: true
-      });
-
-      if (response.data.success) {
+      if (response.success) {
         alert(editProject ? 'Portfolio project updated successfully!' : 'Portfolio project created successfully!');
         onProjectCreated();
         onClose();
       }
     } catch (error) {
       console.error('Portfolio project error:', error);
-      alert(error.response?.data?.message || `Failed to ${editProject ? 'update' : 'create'} portfolio project`);
+      alert(error.message || `Failed to ${editProject ? 'update' : 'create'} portfolio project`);
     } finally {
       setLoading(false);
     }

@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 
 const LoginModal = () => {
-    const { isLoading, login, role } = useAuthStore();
+    const { isLoading, login, user } = useAuthStore();
     const [formData, setFormData] = useState({ email: '', password: '' });
 
     const handleChange = (e) => {
@@ -21,7 +21,7 @@ const LoginModal = () => {
         const result = await login(formData)
 
         if (result) {
-            router.push(`/${role?.toLowerCase()}/dashboard`)
+            router.push('/')
         }
     };
 

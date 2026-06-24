@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, Save, User, FileText, Globe, Smartphone, Search, TrendingUp, PenTool } from 'lucide-react';
-import api from '@/api/api';
+import { createAdminProject } from '@/actions/admin.action';
 
 const AdminHireForm = ({ onClose, onProjectCreated }) => {
   const [formData, setFormData] = useState({
@@ -49,8 +49,6 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
 
   // Available options for different categories
   const categoryOptions = [
@@ -157,16 +155,16 @@ const AdminHireForm = ({ onClose, onProjectCreated }) => {
     setLoading(true);
 
     try {
-      const response = await api.post(`/admin/projects`, formData);
+      const response = await createAdminProject(formData)
 
-      if (response.data.success) {
+      if (response.success) {
         alert('Project created successfully!');
         onProjectCreated();
         onClose();
       }
     } catch (error) {
       console.error('Create project error:', error);
-      alert(error.response?.data?.message || 'Failed to create project');
+      alert(error.message || 'Failed to create project');
     } finally {
       setLoading(false);
     }

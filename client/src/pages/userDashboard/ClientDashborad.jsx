@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react';
 import { Menu, X, Bell, Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, User, LogOut, Settings, RefreshCw, Link, Plus } from 'lucide-react';
 import ClientHireForm from './ClientHireForm';
-import api from '@/api/api';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
-import axios from 'axios';
+import { getUserProjects } from '@/actions/project.action';
 
 const ClientDashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -23,16 +22,11 @@ const ClientDashboard = () => {
   const fetchUserProjects = async () => {
     console.log('fetchUserProjects: Attempting to fetch user projects...');
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-projects`, {
-        withCredentials: true,
-      });
-
-      const data = response.data;
-      console.log('fetchUserProjects: Response from /user-projects:', data);
-
-      if (data.success) {
-        console.log('fetchUserProjects: Projects fetched successfully. Count:', data.projects.length);
-        const transformedProjects = data.projects.map(project => ({
+      const response = await getUserProjects();
+      console.log(response)
+      if (response.success) {
+        console.log('fetchUserProjects: Projects fetched successfully. Count:', response.projects.length);
+        const transformedProjects = response.projects.map(project => ({
           id: project.id,
           projectTitle: project.project_title,
           projectName: project.project_name,
@@ -204,7 +198,6 @@ const ClientDashboard = () => {
   if (showAddProject) {
     return (
       <div className="min-h-screen bg-[#f8f9fb]">
-        <ClientNavbar onLogout={handleLogout} user={user} />
         <div className="w-full px-6 md:px-20 py-8">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-3xl font-bold text-[#1365ff]">Add New Project</h2>

@@ -1,5 +1,5 @@
 import express from "express";
-import { isAdminAuthenticated } from "../middleware/auth.js";
+import { isAdminAuthenticated, verifyUser } from "../middleware/auth.js";
 import {
   getPortfolioProjects,
   getAdminPortfolioProjects,
@@ -14,11 +14,11 @@ const portfolioRouter = express.Router();
 
 portfolioRouter.get("/portfolio-projects", getPortfolioProjects);
 portfolioRouter.get("/admin/portfolio-projects", isAdminAuthenticated, getAdminPortfolioProjects);
-portfolioRouter.post("/admin/portfolio-projects", isAdminAuthenticated, createPortfolioProject);
-portfolioRouter.put("/admin/portfolio-projects/:id", isAdminAuthenticated, updatePortfolioProject);
-portfolioRouter.delete("/admin/portfolio-projects/:id", isAdminAuthenticated, deletePortfolioProject);
+portfolioRouter.post("/admin/portfolio-projects", verifyUser, isAdminAuthenticated, createPortfolioProject);
+portfolioRouter.put("/admin/portfolio-projects", verifyUser, isAdminAuthenticated, updatePortfolioProject);
+portfolioRouter.delete("/admin/portfolio-projects/:id", verifyUser, isAdminAuthenticated, deletePortfolioProject);
 portfolioRouter.get("/portfolio-projects/:id", getPortfolioProjectById);
-portfolioRouter.get("/admin/portfolio-stats", isAdminAuthenticated, getPortfolioStats);
+portfolioRouter.get("/admin/portfolio-stats", verifyUser, isAdminAuthenticated, getPortfolioStats);
 
 export default portfolioRouter;
 

@@ -133,7 +133,7 @@ export const createPortfolioProject = async (req, res) => {
 
 export const updatePortfolioProject = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.query;
         const {
             title,
             category,
@@ -147,7 +147,7 @@ export const updatePortfolioProject = async (req, res) => {
         } = req.body;
 
         const existingProject = await prisma.portfolioProject.findUnique({
-            where: { id: parseInt(id) }
+            where: { id }
         });
 
         if (!existingProject) {
@@ -176,7 +176,7 @@ export const updatePortfolioProject = async (req, res) => {
         if (status) updateData.status = status;
 
         const updatedProject = await prisma.portfolioProject.update({
-            where: { id: parseInt(id) },
+            where: { id },
             data: updateData
         });
 
@@ -203,7 +203,7 @@ export const deletePortfolioProject = async (req, res) => {
         const { id } = req.params;
 
         const existingProject = await prisma.portfolioProject.findUnique({
-            where: { id: parseInt(id) }
+            where: { id }
         });
 
         if (!existingProject) {
@@ -214,7 +214,7 @@ export const deletePortfolioProject = async (req, res) => {
         }
 
         await prisma.portfolioProject.delete({
-            where: { id: parseInt(id) }
+            where: { id }
         });
 
         res.json({
@@ -236,7 +236,7 @@ export const getPortfolioProjectById = async (req, res) => {
         const { id } = req.params;
 
         const project = await prisma.portfolioProject.findFirst({
-            where: { id: parseInt(id), status: "active" }
+            where: { id, status: "active" }
         });
 
         if (!project) {

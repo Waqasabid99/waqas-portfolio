@@ -5,10 +5,7 @@ import { ApiError } from "../utils/error.js";
 import { getSafeUser, verifyAccessToken } from "../utils/helpers.js";
 
 export const verifyUser = asyncHandler(async (req, res, next) => {
-  console.log("started call")
   const token = req.cookies?.accessToken;
-
-  console.log("token", token);
 
   if (!token) throw ApiError.unauthorized("Unauthorized");
 
@@ -28,7 +25,6 @@ export const verifyUser = asyncHandler(async (req, res, next) => {
 });
 
 export const isAdminAuthenticated = (req, res, next) => {
-  console.log(req.user);
   if (req.user?.role !== UserRole.ADMIN) {
     throw ApiError.unauthorized("You are not authorized to access this resource")
   }
