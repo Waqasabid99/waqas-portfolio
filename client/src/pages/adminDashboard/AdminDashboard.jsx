@@ -380,352 +380,225 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Users</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.users}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <FolderOpen className="w-6 h-6 text-green-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Projects</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.projects}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <Image className="w-6 h-6 text-purple-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Portfolio Projects</p>
-                <p className="text-2xl font-bold text-gray-900">{portfolioStats.total}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <DollarSign className="w-6 h-6 text-yellow-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-gray-900">${stats.revenue.toLocaleString()}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="bg-white rounded-xl shadow-sm mb-6">
-          <div className="border-b border-gray-200">
-            <nav className="flex space-x-8 px-6">
-              <button
-                onClick={() => setActiveTab('projects')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'projects'
-                  ? 'border-[#1365ff] text-[#1365ff]'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-              >
-                Client Projects ({stats.projects})
-              </button>
-              <button
-                onClick={() => setActiveTab('portfolio')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'portfolio'
-                  ? 'border-[#1365ff] text-[#1365ff]'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-              >
-                Portfolio Projects ({portfolioStats.total})
-              </button>
-            </nav>
-          </div>
-        </div>
-
-        {/* Projects Section */}
-        {activeTab === 'projects' && (
-          <div className="bg-white rounded-xl shadow-sm">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 sm:mb-0">Client Projects Management</h2>
-
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-                  {/* Filters */}
-                  <div className="flex items-center space-x-2">
-                    <Filter className="w-4 h-4 text-gray-500" />
-                    <select
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
-                      className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="all">All Status</option>
-                      <option value="pending">Pending</option>
-                      <option value="in-progress">In Progress</option>
-                      <option value="completed">Completed</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
-                  </div>
-
-                  {/* Sort */}
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="deadline">Sort by Deadline</option>
-                    <option value="price">Sort by Price</option>
-                    <option value="title">Sort by Title</option>
-                    <option value="date">Sort by Date</option>
-                  </select>
-
-                  {/* Export */}
-                  <button
-                    onClick={exportData}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
-                  >
-                    <Download className="w-4 h-4" />
-                    <span>Export</span>
-                  </button>
-
-                  {/* Add Project */}
-                  <button
-                    onClick={() => setShowHireForm(true)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-[#1365ff] text-white rounded-lg hover:bg-blue-700"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Add Project</span>
-                  </button>
+      {!showHireForm && !showPortfolioForm && (
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Users className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Total Users</p>
+                  <p className="text-2xl font-bold text-gray-900">{stats.users}</p>
                 </div>
               </div>
             </div>
 
-            {/* Projects Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Project
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Client
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Category
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Price
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Deadline
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {sortedProjects.map((project) => (
-                    <tr key={project.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div>
-                          <div className="text-sm font-medium text-gray-900">
-                            {project.project_title}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {project.project_name}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{project.username}</div>
-                        <div className="text-sm text-gray-500">{project.email}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 capitalize">
-                          {project.category?.replace('-', ' ')}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${project.price?.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
-                          {getStatusIcon(project.status)}
-                          <select
-                            value={project.status}
-                            onChange={(e) => handleStatusChange(project.id, e.target.value)}
-                            disabled={updating}
-                            className={`text-xs font-medium rounded-full px-2 py-1 border-0 focus:ring-2 focus:ring-blue-500 ${getStatusColor(project.status)}`}
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="in-progress">In Progress</option>
-                            <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
-                          </select>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {project.deadline ? new Date(project.deadline).toLocaleDateString() : 'No deadline'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={() => handleViewProject(project.id)}
-                            className="text-blue-600 hover:text-blue-900"
-                            title="View Details"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteProject(project.id)}
-                            className="text-red-600 hover:text-red-900"
-                            disabled={updating}
-                            title="Delete Project"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <FolderOpen className="w-6 h-6 text-green-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Total Projects</p>
+                  <p className="text-2xl font-bold text-gray-900">{stats.projects}</p>
+                </div>
+              </div>
             </div>
 
-            {sortedProjects.length === 0 && (
-              <div className="text-center py-12">
-                <FolderOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No projects found</h3>
-                <p className="text-gray-500 mb-4">
-                  {filter === 'all' ? 'No projects have been created yet.' : `No projects with status "${filter}".`}
-                </p>
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-purple-100 rounded-lg">
+                  <Image className="w-6 h-6 text-purple-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Portfolio Projects</p>
+                  <p className="text-2xl font-bold text-gray-900">{portfolioStats.total}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <DollarSign className="w-6 h-6 text-yellow-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
+                  <p className="text-2xl font-bold text-gray-900">${stats.revenue.toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tab Navigation */}
+          <div className="bg-white rounded-xl shadow-sm mb-6">
+            <div className="border-b border-gray-200">
+              <nav className="flex space-x-8 px-6">
                 <button
-                  onClick={() => setShowHireForm(true)}
-                  className="inline-flex items-center px-4 py-2 bg-[#1365ff] text-white rounded-lg hover:bg-blue-700"
+                  onClick={() => setActiveTab('projects')}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'projects'
+                    ? 'border-[#1365ff] text-[#1365ff]'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create First Project
+                  Client Projects ({stats.projects})
                 </button>
-              </div>
-            )}
+                <button
+                  onClick={() => setActiveTab('portfolio')}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'portfolio'
+                    ? 'border-[#1365ff] text-[#1365ff]'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                >
+                  Portfolio Projects ({portfolioStats.total})
+                </button>
+              </nav>
+            </div>
           </div>
-        )}
 
-        {/* Portfolio Projects Section */}
-        {activeTab === 'portfolio' && (
-          <div className="bg-white rounded-xl shadow-sm">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 sm:mb-0">Portfolio Projects Management</h2>
+          {/* Projects Section */}
+          {activeTab === 'projects' && (
+            <div className="bg-white rounded-xl shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4 sm:mb-0">Client Projects Management</h2>
 
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-                  {/* Portfolio Filters */}
-                  <div className="flex items-center space-x-2">
-                    <Filter className="w-4 h-4 text-gray-500" />
+                  <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    {/* Filters */}
+                    <div className="flex items-center space-x-2">
+                      <Filter className="w-4 h-4 text-gray-500" />
+                      <select
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </div>
+
+                    {/* Sort */}
                     <select
-                      value={portfolioFilter}
-                      onChange={(e) => setPortfolioFilter(e.target.value)}
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
                       className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      <option value="all">All Projects</option>
-                      <option value="featured">Featured</option>
-                      <option value="web-development">Web Development</option>
-                      <option value="web-design">Web Design</option>
-                      <option value="ui-ux">UI/UX Design</option>
-                      <option value="seo">SEO Projects</option>
-                      <option value="mobile-app">Mobile App</option>
+                      <option value="deadline">Sort by Deadline</option>
+                      <option value="price">Sort by Price</option>
+                      <option value="title">Sort by Title</option>
+                      <option value="date">Sort by Date</option>
                     </select>
+
+                    {/* Export */}
+                    <button
+                      onClick={exportData}
+                      className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Export</span>
+                    </button>
+
+                    {/* Add Project */}
+                    <button
+                      onClick={() => setShowHireForm(true)}
+                      className="flex items-center space-x-2 px-4 py-2 bg-[#1365ff] text-white rounded-lg hover:bg-blue-700"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Add Project</span>
+                    </button>
                   </div>
-
-                  {/* Export Portfolio */}
-                  <button
-                    onClick={exportPortfolioData}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
-                  >
-                    <Download className="w-4 h-4" />
-                    <span>Export</span>
-                  </button>
-
-                  {/* Add Portfolio Project */}
-                  <button
-                    onClick={() => {
-                      setEditingPortfolioProject(null);
-                      setShowPortfolioForm(true);
-                    }}
-                    className="flex items-center space-x-2 px-4 py-2 bg-[#1365ff] text-white rounded-lg hover:bg-blue-700"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Add Portfolio Project</span>
-                  </button>
                 </div>
               </div>
-            </div>
 
-            {/* Portfolio Projects Grid */}
-            <div className="p-6">
-              {filteredPortfolioProjects.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredPortfolioProjects.map((project) => (
-                    <div key={project.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                      <div className="relative">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-48 object-cover"
-                        />
-                        <div className="absolute top-2 right-2 flex space-x-1">
-                          {project.featured && (
-                            <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs flex items-center">
-                              <Star className="w-3 h-3 mr-1" />
-                              Featured
-                            </span>
-                          )}
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPortfolioStatusColor(project.status)}`}>
-                            {project.status}
+              {/* Projects Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Project
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Client
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Category
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Price
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Deadline
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {sortedProjects.map((project) => (
+                      <tr key={project.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {project.project_title}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {project.project_name}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{project.username}</div>
+                          <div className="text-sm text-gray-500">{project.email}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 capitalize">
+                            {project.category?.replace('-', ' ')}
                           </span>
-                        </div>
-                      </div>
-
-                      <div className="p-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-lg font-semibold text-gray-900 truncate">{project.title}</h3>
-                          <div className="flex space-x-1">
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          ${project.price?.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center space-x-2">
+                            {getStatusIcon(project.status)}
+                            <select
+                              value={project.status}
+                              onChange={(e) => handleStatusChange(project.id, e.target.value)}
+                              disabled={updating}
+                              className={`text-xs font-medium rounded-full px-2 py-1 border-0 focus:ring-2 focus:ring-blue-500 ${getStatusColor(project.status)}`}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="in-progress">In Progress</option>
+                              <option value="completed">Completed</option>
+                              <option value="cancelled">Cancelled</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {project.deadline ? new Date(project.deadline).toLocaleDateString() : 'No deadline'}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center space-x-2">
                             <button
-                              onClick={() => window.open(project.live_url, '_blank')}
+                              onClick={() => handleViewProject(project.id)}
                               className="text-blue-600 hover:text-blue-900"
-                              title="View Live Project"
+                              title="View Details"
                             >
-                              <Globe className="w-4 h-4" />
+                              <Eye className="w-4 h-4" />
                             </button>
                             <button
-                              onClick={() => handleEditPortfolioProject(project)}
-                              className="text-gray-600 hover:text-gray-900"
-                              title="Edit Project"
-                            >
-                              <Edit className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => handleDeletePortfolioProject(project.id)}
+                              onClick={() => handleDeleteProject(project.id)}
                               className="text-red-600 hover:text-red-900"
                               disabled={updating}
                               title="Delete Project"
@@ -733,53 +606,183 @@ const AdminDashboard = () => {
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
-                        </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-                        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{project.description}</p>
-
-                        <div className="flex flex-wrap gap-1 mb-3">
-                          {project.technologies.slice(0, 3).map((tech, index) => (
-                            <span key={index} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                              {tech}
-                            </span>
-                          ))}
-                          {project.technologies.length > 3 && (
-                            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                              +{project.technologies.length - 3} more
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="text-xs text-gray-500">
-                          Category: <span className="capitalize">{project.category.replace('-', ' ')}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
+              {sortedProjects.length === 0 && (
                 <div className="text-center py-12">
-                  <Image className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No portfolio projects found</h3>
+                  <FolderOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No projects found</h3>
                   <p className="text-gray-500 mb-4">
-                    {portfolioFilter === 'all' ? 'No portfolio projects have been created yet.' : `No projects in "${portfolioFilter}" category.`}
+                    {filter === 'all' ? 'No projects have been created yet.' : `No projects with status "${filter}".`}
                   </p>
                   <button
-                    onClick={() => {
-                      setEditingPortfolioProject(null);
-                      setShowPortfolioForm(true);
-                    }}
+                    onClick={() => setShowHireForm(true)}
                     className="inline-flex items-center px-4 py-2 bg-[#1365ff] text-white rounded-lg hover:bg-blue-700"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    Create First Portfolio Project
+                    Create First Project
                   </button>
                 </div>
               )}
             </div>
-          </div>
-        )}
-      </main>
+          )}
+
+          {/* Portfolio Projects Section */}
+          {activeTab === 'portfolio' && (
+            <div className="bg-white rounded-xl shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4 sm:mb-0">Portfolio Projects Management</h2>
+
+                  <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    {/* Portfolio Filters */}
+                    <div className="flex items-center space-x-2">
+                      <Filter className="w-4 h-4 text-gray-500" />
+                      <select
+                        value={portfolioFilter}
+                        onChange={(e) => setPortfolioFilter(e.target.value)}
+                        className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="all">All Projects</option>
+                        <option value="featured">Featured</option>
+                        <option value="web-development">Web Development</option>
+                        <option value="web-design">Web Design</option>
+                        <option value="ui-ux">UI/UX Design</option>
+                        <option value="seo">SEO Projects</option>
+                        <option value="mobile-app">Mobile App</option>
+                      </select>
+                    </div>
+
+                    {/* Export Portfolio */}
+                    <button
+                      onClick={exportPortfolioData}
+                      className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Export</span>
+                    </button>
+
+                    {/* Add Portfolio Project */}
+                    <button
+                      onClick={() => {
+                        setEditingPortfolioProject(null);
+                        setShowPortfolioForm(true);
+                      }}
+                      className="flex items-center space-x-2 px-4 py-2 bg-[#1365ff] text-white rounded-lg hover:bg-blue-700"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Add Portfolio Project</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Portfolio Projects Grid */}
+              <div className="p-6">
+                {filteredPortfolioProjects.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredPortfolioProjects.map((project) => (
+                      <div key={project.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                        <div className="relative">
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-48 object-cover"
+                          />
+                          <div className="absolute top-2 right-2 flex space-x-1">
+                            {project.featured && (
+                              <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs flex items-center">
+                                <Star className="w-3 h-3 mr-1" />
+                                Featured
+                              </span>
+                            )}
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPortfolioStatusColor(project.status)}`}>
+                              {project.status}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 truncate">{project.title}</h3>
+                            <div className="flex space-x-1">
+                              <button
+                                onClick={() => window.open(project.live_url, '_blank')}
+                                className="text-blue-600 hover:text-blue-900"
+                                title="View Live Project"
+                              >
+                                <Globe className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleEditPortfolioProject(project)}
+                                className="text-gray-600 hover:text-gray-900"
+                                title="Edit Project"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleDeletePortfolioProject(project.id)}
+                                className="text-red-600 hover:text-red-900"
+                                disabled={updating}
+                                title="Delete Project"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+
+                          <p className="text-sm text-gray-600 mb-3 line-clamp-2">{project.description}</p>
+
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            {project.technologies.slice(0, 3).map((tech, index) => (
+                              <span key={index} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                {tech}
+                              </span>
+                            ))}
+                            {project.technologies.length > 3 && (
+                              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                                +{project.technologies.length - 3} more
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="text-xs text-gray-500">
+                            Category: <span className="capitalize">{project.category.replace('-', ' ')}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Image className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">No portfolio projects found</h3>
+                    <p className="text-gray-500 mb-4">
+                      {portfolioFilter === 'all' ? 'No portfolio projects have been created yet.' : `No projects in "${portfolioFilter}" category.`}
+                    </p>
+                    <button
+                      onClick={() => {
+                        setEditingPortfolioProject(null);
+                        setShowPortfolioForm(true);
+                      }}
+                      className="inline-flex items-center px-4 py-2 bg-[#1365ff] text-white rounded-lg hover:bg-blue-700"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create First Portfolio Project
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </main>
+      )
+      }
 
       {/* Modals */}
       {showProjectDetails && (

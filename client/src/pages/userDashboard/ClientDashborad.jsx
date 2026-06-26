@@ -199,16 +199,6 @@ const ClientDashboard = () => {
     return (
       <div className="min-h-screen bg-[#f8f9fb]">
         <div className="w-full px-6 md:px-20 py-8">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-3xl font-bold text-[#1365ff]">Add New Project</h2>
-            <button
-              onClick={handleCloseAddProject}
-              className="flex items-center gap-2 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
-            >
-              <X size={16} />
-              Cancel
-            </button>
-          </div>
           <ClientHireForm
             onProjectAdded={handleProjectAdded}
             onCancel={handleCloseAddProject}

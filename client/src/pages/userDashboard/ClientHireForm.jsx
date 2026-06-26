@@ -479,11 +479,11 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
     <div className="w-full px-6 md:px-20 py-10 bg-gray-50">
       <div className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md border border-gray-100">
         <div className='flex justify-between items-start'>
-          <h2 className="text-2xl font-bold text-blue-600 mb-6">Add New Project</h2>
+          <h2 className="text-[14px] md:text-[16px] lg:text-[18px] font-bold text-blue-600 mb-6">Add New Project</h2>
           {onCancel && (
             <button
               onClick={onCancel}
-              className="text-white bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+              className="text-white bg-red-500 px-3 py-1 text-[10px] md:text-[12px] lg:text-[14px] rounded hover:bg-red-600"
             >
               Cancel
             </button>
@@ -721,7 +721,7 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
               <button
                 type="button"
                 onClick={onCancel}
-                className="px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="px-3 py-1.5 text-[10px] md:px-6 md:py-3 lg:px-6 lg:py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-50"
               >
                 Cancel
               </button>
@@ -729,7 +729,7 @@ const ClientHireForm = ({ onProjectAdded, onCancel, user }) => {
             <button
               type="submit"
               disabled={loading}
-              className={`px-6 py-3 rounded-full border transition ${loading
+              className={`px-6 md:px-6 md:py-3 lg:px-6 lg:py-3 text-[10px] md:text-[12px] lg:text-[14px] rounded-full border transition ${loading
                 ? 'bg-gray-400 text-white cursor-not-allowed'
                 : 'bg-blue-600 text-white hover:bg-white hover:text-blue-600 border-blue-600'
                 }`}

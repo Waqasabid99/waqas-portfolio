@@ -53,7 +53,7 @@ function Navbar() {
                         ))}
                     </ul>
                     <div className='flex gap-4'>
-                        <button onClick={() => window.open('https://wa.me/+923208703508', '_blank')} className="ml-6 rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition">
+                        <button onClick={() => window.open('https://wa.me/923208703508', '_blank')} className="ml-6 rounded-full px-5 py-2 bg-[#1365ff] text-white border border-[#1365ff] hover:bg-white hover:text-[#1365ff] transition">
                             Contact me
                         </button>
 

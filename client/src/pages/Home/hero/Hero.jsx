@@ -11,7 +11,7 @@ function Hero() {
   };
 
   const handleWhatsappClick = () => {
-    window.open('https://wa.me/923208703508', '_blank');
+    window.open('https://wa.me/+923208703508', '_blank');
   };
 
   return (
