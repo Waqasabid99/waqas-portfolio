@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, Plus, Save, Star, Tag, FileText, Link, Eye } from 'lucide-react';
-import axios from 'axios';
-import { createAdminPortfolioProject, updateAdminPortfolioProject } from '@/actions/admin.action';
+import { createAdminPortfolioProject, updateAdminPortfolioProject } from '@/actions/portfolio.action';
 
 const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) => {
   const [formData, setFormData] = useState({
@@ -129,7 +128,7 @@ const AdminPortfolioForm = ({ onClose, onProjectCreated, editProject = null }) =
     try {
       const response = await editProject ? updateAdminPortfolioProject(editProject.id, formData) : createAdminPortfolioProject(formData);
 
-      if (response.success) {
+      if (response) {
         alert(editProject ? 'Portfolio project updated successfully!' : 'Portfolio project created successfully!');
         onProjectCreated();
         onClose();

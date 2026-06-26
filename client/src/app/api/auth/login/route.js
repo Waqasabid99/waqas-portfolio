@@ -4,7 +4,7 @@ import { applyAuthCookiesFromResponse, proxyAuthRequest } from "@/lib/authProxy"
 export async function POST(request) {
     const body = await request.json();
     const { response, data } = await proxyAuthRequest({
-        path: "/login",
+        path: "/user/login",
         body,
     });
 
@@ -15,4 +15,4 @@ export async function POST(request) {
     await applyAuthCookiesFromResponse(response);
 
     return NextResponse.json(data);
-}
+};

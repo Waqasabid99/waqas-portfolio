@@ -19,6 +19,6 @@ const page = async ({ params }) => {
             {role === "admin" && <AdminDashboard />}
         </main>
     )
-}
+};
 
-export default page
+export default page;

@@ -3,11 +3,11 @@ import { clearAuthCookies, proxyAuthRequest } from "@/lib/authProxy";
 
 export async function POST() {
     const { response, data } = await proxyAuthRequest({
-        path: "/logout",
+        path: "/user/logout",
         forwardCookies: true,
     });
 
     await clearAuthCookies();
 
     return NextResponse.json(data, { status: response.status });
-}
+};

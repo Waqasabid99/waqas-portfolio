@@ -3,10 +3,27 @@
 import { apiRequest } from "@/api/apiHandler";
 import { revalidateTag } from "next/cache";
 
-export const getAdminStats = async () => {
+export const getAdminPortfolioProjects = async () => {
     const response = await apiRequest({
-        url: "/admin/stats",
+        url: "/portfolio/portfolio-projects",
         method: "GET",
+        withCredentials: true,
+        cache: "no-store"
+    });
+
+    if (!response.success) {
+        return []
+    };
+
+    console.log(response)
+    return response || [];
+};
+
+export const updateAdminPortfolioProject = async (id, payload) => {
+    const response = await apiRequest({
+        url: `/portfolio/admin/portfolio-projects?id=${id}`,
+        method: "PUT",
+        data: payload,
         withCredentials: true,
         cache: "no-store"
     });
@@ -15,42 +32,29 @@ export const getAdminStats = async () => {
         return response
     };
 
+    revalidateTag("portfolio-projects", "max");
     return response || [];
 };
 
-export const getAdminProjects = async () => {
+export const getAdminPortfolioStats = async () => {
     const response = await apiRequest({
-        url: "/admin/projects",
+        url: "/portfolio/admin/portfolio-stats",
         method: "GET",
         withCredentials: true,
         cache: "no-store"
     });
 
     if (!response.success) {
-        return response
+        return []
     };
 
+    console.log(response)
     return response || [];
 };
 
-export const getSingleProject = async (projectId) => {
+export const createAdminPortfolioProject = async (payload) => {
     const response = await apiRequest({
-        url: `/admin/projects/${projectId}`,
-        method: "GET",
-        withCredentials: true,
-        cache: "no-store"
-    });
-
-    if (!response.success) {
-        return response
-    };
-
-    return response || [];
-};
-
-export const createAdminProject = async (payload) => {
-    const response = await apiRequest({
-        url: "/admin/projects",
+        url: "/portfolio/admin/portfolio-projects",
         method: "POST",
         data: payload,
         withCredentials: true,
@@ -65,44 +69,26 @@ export const createAdminProject = async (payload) => {
     return response || [];
 };
 
-export const updateAdminProject = async (payload) => {
+export const getPortfolioProjects = async () => {
     const response = await apiRequest({
-        url: `/admin/projects/${payload.id}`,
-        method: "PUT",
-        data: payload,
-        withCredentials: true,
-        cache: "no-store"
+        url: "/portfolio/portfolio-projects",
+        method: "GET",
+        withCredentials: false,
+        tags: ["portfolio-projects"]
     });
 
     if (!response.success) {
         return response
-    };
+    }
 
-    revalidateTag("portfolio-projects", "max");
+    console.log(response)
     return response || [];
 };
 
-export const deleteAdminProject = async (projectId) => {
+export const deleteAdminPortfolioProject = async (projectId) => {
     const response = await apiRequest({
-        url: `/admin/projects/${projectId}`,
+        url: `/portfolio/admin/portfolio-projects/${projectId}`,
         method: "DELETE",
-        withCredentials: true,
-        cache: "no-store"
-    });
-
-    if (!response.success) {
-        return response
-    };
-
-    revalidateTag("portfolio-projects", "max");
-    return response || [];
-};
-
-export const updateProjectStatus = async (projectId, payload) => {
-    const response = await apiRequest({
-        url: `/admin/projects/${projectId}/status`,
-        method: "PUT",
-        data: payload,
         withCredentials: true,
         cache: "no-store"
     });

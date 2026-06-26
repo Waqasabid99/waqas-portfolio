@@ -14,13 +14,13 @@ const adminRouter = express.Router();
 adminRouter.use(verifyUser, isAdminAuthenticated)
 
 // Stats
-adminRouter.get("/admin/stats", getAdminStats);
+adminRouter.get("/stats", getAdminStats);
 
 // Projects
-adminRouter.get("/admin/projects", getAllProjects);
-adminRouter.get("/admin/projects/:id", getProjectById);
-adminRouter.post("/admin/projects", createProject);
-adminRouter.put("/admin/projects/:id/status", updateProjectStatus);
-adminRouter.delete("/admin/projects/:id", deleteProject);
+adminRouter.get("/projects", getAllProjects);
+adminRouter.get("/projects/:id", getProjectById);
+adminRouter.post("/projects", createProject);
+adminRouter.put("/projects/:id/status", updateProjectStatus);
+adminRouter.delete("/projects/:id", deleteProject);
 
 export default adminRouter;

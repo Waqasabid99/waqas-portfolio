@@ -12,7 +12,9 @@ import {
 
 const portfolioRouter = express.Router();
 
-portfolioRouter.get("/admin/portfolio-projects", isAdminAuthenticated, getAdminPortfolioProjects);
+portfolioRouter.get("/portfolio-projects", getPortfolioProjects);
+
+portfolioRouter.get("/admin/portfolio-projects", verifyUser, isAdminAuthenticated, getAdminPortfolioProjects);
 portfolioRouter.post("/admin/portfolio-projects", verifyUser, isAdminAuthenticated, createPortfolioProject);
 portfolioRouter.put("/admin/portfolio-projects", verifyUser, isAdminAuthenticated, updatePortfolioProject);
 portfolioRouter.delete("/admin/portfolio-projects/:id", verifyUser, isAdminAuthenticated, deletePortfolioProject);

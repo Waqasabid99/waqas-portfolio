@@ -29,6 +29,7 @@ const PostGrid = ({
     variant = "default",
     emptyMessage = "No posts found.",
     skeletonCount = 6,
+    className
 }) => {
     const gridColsClass = COLUMN_CLASSES[columns] || COLUMN_CLASSES[3];
 
@@ -47,7 +48,7 @@ const PostGrid = ({
     }
 
     return (
-        <div className={`grid grid-cols-1 ${gridColsClass} gap-6`}>
+        <div className={`grid grid-cols-1 ${gridColsClass} gap-6 ${className}`}>
             {posts?.map((post) => (
                 <PostCard key={post.id} post={post} variant={variant} />
             ))}

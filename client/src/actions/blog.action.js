@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 
 export const getBlogPosts = async (params = {}) => {
     const response = await apiRequest({
-        url: "/posts",
+        url: "/blog/posts",
         method: "GET",
         params,
         withCredentials: false,
@@ -13,14 +13,14 @@ export const getBlogPosts = async (params = {}) => {
 
     if (!response) {
         return []
-    }
+    };
 
     return response.data;
 };
 
 export const getPostBySlug = async (slug) => {
     const response = await apiRequest({
-        url: `/posts/slug?slug=${slug}`,
+        url: `/blog/posts/slug?slug=${slug}`,
         method: "GET",
         withCredentials: false,
         cache: "no-store",
@@ -28,14 +28,14 @@ export const getPostBySlug = async (slug) => {
 
     if (!response) {
         return null;
-    }
+    };
 
     return response.data;
 };
 
 export const getBlogById = async (id) => {
     const response = await apiRequest({
-        url: `/admin/blogs`,
+        url: `/blog/admin/blogs`,
         method: "GET",
         params: { id },
         withCredentials: true,
@@ -43,13 +43,14 @@ export const getBlogById = async (id) => {
 
     if (!response) {
         return null;
-    }
+    };
+
     return response.data.blog;
 }
 
 export const getCategories = async () => {
     const response = await apiRequest({
-        url: "/categories",
+        url: "/blog/categories",
         method: "GET",
         withCredentials: false,
         tags: ['categories']
@@ -64,7 +65,7 @@ export const getCategories = async () => {
 
 export const createBlog = async (payload) => {
     const response = await apiRequest({
-        url: "/admin/blogs",
+        url: "/blog/admin/blogs",
         method: "POST",
         data: payload,
         withCredentials: true,
@@ -80,7 +81,7 @@ export const createBlog = async (payload) => {
 
 export const uploadImage = async (image) => {
     const response = await apiRequest({
-        url: "/admin/blogs/upload-image",
+        url: "/blog/admin/blogs/upload-image",
         method: "POST",
         data: image,
         withCredentials: true,
@@ -90,14 +91,12 @@ export const uploadImage = async (image) => {
         return null;
     };
 
-    console.log(response)
-
     return response.file;
 };
 
 export const deleteImage = async (publicId) => {
     const response = await apiRequest({
-        url: "/admin/blogs/delete-image",
+        url: "/blog/admin/blogs/delete-image",
         method: "DELETE",
         data: { public_id: publicId },
         withCredentials: true,

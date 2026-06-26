@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { FaArrowCircleRight, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { BiCode, BiTrendingUp } from 'react-icons/bi';
 import { FiEye } from 'react-icons/fi';
-import { getPortfolioProjects } from '@/actions/project.action';
+import { getPortfolioProjects } from '@/actions/portfolio.action';
 
 const Portfolio = () => {
     const [activeFilter, setActiveFilter] = useState('all');

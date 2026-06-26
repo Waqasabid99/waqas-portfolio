@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Menu, X, Bell, Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, User, LogOut, Settings, RefreshCw, Link, Plus } from 'lucide-react';
+import { Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, RefreshCw, Plus } from 'lucide-react';
 import ClientHireForm from './ClientHireForm';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
@@ -374,9 +374,6 @@ const ClientDashboard = () => {
                   {getStatusIcon(project.status)}
                   {project.status}
                 </div>
-                <button className="text-[#1365ff] hover:text-blue-700 text-sm font-medium">
-                  View Details
-                </button>
               </div>
             </div>
           ))}

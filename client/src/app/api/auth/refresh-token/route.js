@@ -7,7 +7,7 @@ import {
 
 export async function POST() {
     const { response, data } = await proxyAuthRequest({
-        path: "/refresh-token",
+        path: "/user/refresh-token",
         forwardCookies: true,
     });
 
@@ -19,4 +19,4 @@ export async function POST() {
     await applyAuthCookiesFromResponse(response);
 
     return NextResponse.json(data);
-}
+};

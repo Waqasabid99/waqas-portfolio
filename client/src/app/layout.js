@@ -53,8 +53,6 @@ export default function RootLayout({ children }) {
         <Navbar />
         <ToastContainer />
         {children}
-        <ScrollToTop />
-        <Footer />
       </body>
     </html>
   );

@@ -6,7 +6,8 @@ import AdminHireForm from './AdminHireForm';
 import AdminPortfolioForm from './AdminPortfolioForm';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
-import { deleteAdminPortfolioProject, deleteAdminProject, getAdminPortfolioProjects, getAdminPortfolioStats, getAdminProjects, getAdminStats, getSingleProject, updateProjectStatus } from '@/actions/admin.action';
+import { deleteAdminProject, getAdminProjects, getAdminStats, getSingleProject, updateProjectStatus } from '@/actions/admin.action';
+import { deleteAdminPortfolioProject, getAdminPortfolioProjects, getAdminPortfolioStats } from '@/actions/portfolio.action';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({

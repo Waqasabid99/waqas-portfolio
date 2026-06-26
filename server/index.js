@@ -29,12 +29,12 @@ app.get("/health", (req, res) => {
 });
 
 // Routes
-app.use(userRoutes);
-app.use(blogRouter);
-app.use(contactRoutes);
-app.use(projectRoutes);
-app.use(portfolioRoutes);
-app.use(adminRoutes);
+app.use("/user", userRoutes);
+app.use("/portfolio", portfolioRoutes);
+app.use("/admin", adminRoutes);
+app.use("/project", projectRoutes);
+app.use("/blog", blogRouter);
+app.use("/contact", contactRoutes);
 
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);

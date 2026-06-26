@@ -3,9 +3,9 @@ import { proxyAuthRequest } from "@/lib/authProxy";
 
 export async function POST() {
     const { response, data } = await proxyAuthRequest({
-        path: "/verify",
+        path: "/user/verify",
         forwardCookies: true,
     });
 
     return NextResponse.json(data, { status: response.status });
-}
+};
