@@ -6,6 +6,7 @@ import projectRoutes from "./routes/projectRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
+import blogRouter from "./routes/blogRoutes.js";
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -29,10 +30,11 @@ app.get("/health", (req, res) => {
 
 // Routes
 app.use(userRoutes);
-app.use(projectRoutes);
+app.use(blogRouter);
 app.use(contactRoutes);
-app.use(adminRoutes);
+app.use(projectRoutes);
 app.use(portfolioRoutes);
+app.use(adminRoutes);
 
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);

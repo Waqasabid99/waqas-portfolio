@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { NAVLINKS } from '@/constants/constant';
 import { useAuthStore } from '@/store/authStore';
+import { usePathname } from 'next/navigation';
 
 function Navbar() {
     const { isAuthenticated, logout, user, isLoading } = useAuthStore();
@@ -12,6 +13,7 @@ function Navbar() {
     const [isSticky, setIsSticky] = useState(false);
     const [profileMenuOpen, setProfileMenuOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const isHome = usePathname() === "/";
 
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -40,7 +42,7 @@ function Navbar() {
     }
     return (
         <header
-            className={`max-w-7xl w-screen mb-3 bg-[#e5eff9] px-5 sm:px-10 py-4 rounded-full mx-auto mt-5 sticky top-0 z-1000 ${isSticky ? 'max-w-screen rounded-none' : 'bg-[#e5eff9]'} transition-all duration-400 ease-in-out`}>
+            className={`max-w-7xl w-screen mb-3 bg-[#e5eff9] px-5 sm:px-10 py-4 rounded-full mx-auto sticky top-0 z-1000 ${isSticky ? 'max-w-screen rounded-none mt-5' : 'bg-[#e5eff9]'} transition-all duration-200 ease-in-out ${!isHome ? 'rounded-none max-w-screen m-0' : ''}`}>
             <div className="flex justify-between items-center">
                 <h1 className="text-lg font-bold text-[#1365ff]"><Link href="/">WaqasAbid</Link></h1>
 

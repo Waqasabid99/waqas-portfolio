@@ -1,19 +1,12 @@
 "use client";
 
+import { NAVLINKS } from "@/constants/constant";
 import { FaLinkedin, FaGithub, FaTwitter, FaInstagram, FaWhatsapp, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import { FiHeart } from 'react-icons/fi';
 
 const Footer = () => {
 
     const currentYear = new Date().getFullYear();
-
-    const quickLinks = [
-        { name: 'Home', href: '#home' },
-        { name: 'About', href: '#about' },
-        { name: 'Services', href: '#services' },
-        { name: 'Portfolio', href: '#portfolio' },
-        { name: 'Contact', href: '#contact' }
-    ];
 
     const services = [
         { name: 'Web Development', href: '#web-dev' },
@@ -88,14 +81,14 @@ const Footer = () => {
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
                         <ul className="space-y-2">
-                            {quickLinks.map((link, index) => (
+                            {NAVLINKS.map((link, index) => (
                                 <li key={index}>
                                     <a
                                         href={link.href}
                                         className="text-[#b7bdbd] hover:text-[#1365ff] transition-colors duration-300 flex items-center gap-2 group"
                                     >
                                         <div className="w-1 h-1 bg-[#1365ff] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        {link.name}
+                                        {link.title}
                                     </a>
                                 </li>
                             ))}
@@ -128,8 +121,8 @@ const Footer = () => {
                             </div>
                             <div className="flex items-center gap-3 text-[#b7bdbd]">
                                 <FaEnvelope className="text-[#1365ff] text-lg shrink-0" />
-                                <a href="mailto:contact@waqasabidwork.com" className="hover:text-[#1365ff] transition-colors duration-300">
-                                    contact@waser.online
+                                <a href="mailto:contact@waser.cloud" className="hover:text-[#1365ff] transition-colors duration-300">
+                                    contact@waser.cloud
                                 </a>
                             </div>
                             <div className="flex items-center gap-3 text-[#b7bdbd]">
