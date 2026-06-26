@@ -2,7 +2,7 @@ import { getBlogPosts } from '@/actions/blog.action'
 import PostGrid from '@/pages/Blog/PostGrid'
 
 const page = async () => {
-    const { blogs } = await getBlogPosts();
+    const { blogs } = await getBlogPosts() || {};
 
     return (
         <main className="max-w-screen mx-auto px-10 md:px-10 pt-3 pb-12">
@@ -18,9 +18,9 @@ const page = async () => {
                     </div>
                 </div>
             </div>
-            <PostGrid posts={blogs} />
+            <PostGrid posts={blogs || []} />
         </main>
     )
-}
+};
 
-export default page
+export default page;

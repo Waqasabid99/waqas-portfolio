@@ -3,11 +3,11 @@ import BlogPostPage from "@/pages/Blog/SingleBlog";
 
 const page = async ({ params }) => {
     const { slug } = await params;
-    const { blog } = await getPostBySlug(slug);
+    const { blog } = await getPostBySlug(slug) || {};
 
     return (
-        <BlogPostPage blog={blog} />
+        <BlogPostPage blog={blog || {}} />
     )
-}
+};
 
-export default page
+export default page;

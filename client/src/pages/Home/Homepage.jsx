@@ -9,8 +9,8 @@ import { FaArrowCircleRight } from "react-icons/fa"
 import Link from "next/link"
 
 const HomePage = async () => {
-    const { blogs } = await getBlogPosts();
-    console.log(blogs);
+    const { blogs } = await getBlogPosts() || {};
+
     return (
         <main>
             <Hero />
@@ -18,7 +18,7 @@ const HomePage = async () => {
             <Services />
             <About />
             <Portfolio />
-            {blogs.length > 0 && (
+            {blogs?.length > 0 && (
                 <section className="max-w-7xl mx-auto px-10 md:px-2 pt-3 pb-12">
                     <div className="header-section">
                         <div className="flex items-center gap-3 mb-4">
@@ -44,11 +44,11 @@ const HomePage = async () => {
                             </div>
                         </div>
                     </div>
-                    <PostGrid posts={blogs} />
+                    <PostGrid posts={blogs || []} />
                 </section>
             )}
         </main>
     )
-}
+};
 
-export default HomePage
+export default HomePage;
