@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import { ToastContainer } from "react-toastify";
+import Script from "next/script";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -49,6 +50,29 @@ export default function RootLayout({ children }) {
       lang="en"
       className={` ${poppins.className} ${montserrat.className} h-full antialiased`}
     >
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-D4YKBWPZBH"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-D4YKBWPZBH');
+          `}
+        </Script>
+
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7523374535029796"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <Navbar />
         <ToastContainer />
