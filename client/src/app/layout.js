@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import Script from "next/script";
+import Providers from "./providers";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -74,9 +75,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <Navbar />
-        <ToastContainer />
-        {children}
+        <Providers>
+          <Navbar />
+          <ToastContainer />
+          {children}
+        </Providers>
       </body>
     </html>
   );
